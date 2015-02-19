@@ -1,0 +1,21 @@
+/* div.todo-main-content{ */
+/*   min-height: 400px; */
+/* } */
+#todo-form{
+  min-height: 100px;
+  background-color: brown;
+}
+#todo-list{
+  min-height: 200px;
+  background-color: green;
+}
+#todo-add-item{
+  min-height:50px;
+  background-color: red;
+}
+.todo-item{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  min-height:50px;
+  background-color: blue;
+}

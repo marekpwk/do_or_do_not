@@ -16,7 +16,6 @@ todo.shell = (function(){
       + '<section class="top-bar-section">'
         + '<!-- Right Nav Section -->'
         + '<ul class="right">'
-          + '<li class="active"><a href="#">User name</a></li>'
         + '</ul>'
       + '</section>'
     + '</div>'
@@ -42,7 +41,10 @@ todo.shell = (function(){
    
    setJqueryMap = function () {
       var $container = stateMap.$container;
-      jqueryMap = { $container: $container };     
+      jqueryMap = { 
+        $container: $container,
+        $nav: $container.find('nav')
+      };     
    
    };
    

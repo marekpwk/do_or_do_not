@@ -25,12 +25,20 @@ todo.acct = (function(){
      }
      new_form += link + '</div></div>'
       return new_form 
-    }
+      },
+     logout_link: '<li><a href="#" id="logout-link">Logout</a></li>' 
   },
-   jqueryMap, auth_user, delete_auth, initModule ;
-
-  jqueryMap = { $form_container: $("#todo-form") }
-
+   jqueryMap, setJqueryMap, stateMap, auth_user, delete_auth, initModule ;
+   
+  stateMap = { $container: null }
+  setJqueryMap = function () {
+    var $container = stateMap.$container;
+    jqueryMap = { 
+      $container: $container,
+      $nav: $container.find('nav'),
+      $form: $container.find('#todo-form')
+    }
+   }    
   auth_user = function(form_data, route){
     var email = form_data[0].value;
     var password = form_data[1].value; 
@@ -41,14 +49,13 @@ todo.acct = (function(){
       data: {email: email, password: password}
     })
       .done(function(result){
-        console.log(configMap);
         localStorage.setItem("api_token", result.api_token);
         localStorage.setItem("id", result.id);
-        console.log (todo.user.stateMap.user);
+        todo.user.loginUser(result);
+        on_login();
       })
       .fail(function(xhr,status, error){
         console.log(error);
-        alert(error); 
       })
   };
    
@@ -62,18 +69,37 @@ todo.acct = (function(){
      .done(function(result){
        localStorage.clear();
        $("#todo-form").html(configMap.form_html("login"));
+       jqueryMap.$nav.find('.right').empty();
         
      }) 
   }
+  
+  on_login = function(){
+    console.log("inside onlogin");
+    jqueryMap.$form.empty();
+    jqueryMap.$nav.find('.right').append(configMap.logout_link);
+    $(jqueryMap.$nav.find('#logout-link')).click(function(){
+      delete_auth();
+    });
+  }
 
-  initModule = function(){
+  initModule = function( $container ){
+    stateMap.$container = $container;
+    setJqueryMap();
+
     if(localStorage.api_token === undefined ){
       $("#todo-form").html(configMap.form_html("login"));
+      $("form").on("submit", function(event){
+        event.preventDefault();
+        auth_user($(this).serializeArray(), todo.routes.login());
+      }) 
+      $("#signup-link").click(function(){
+        $("#todo-form").html(configMap.form_html("register"));
+      })   
+    }else{
+     on_login();   
     }  
-    $("form").on("submit", function(event){
-      event.preventDefault();
-      auth_user($(this).serializeArray(), todo.routes.register());
-    })    
+    
   }
 
     

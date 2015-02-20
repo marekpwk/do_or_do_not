@@ -27,21 +27,21 @@ todo.acct = (function(){
       return new_form 
     }
   },
-   jqueryMap, auth_user, initModule ;
+   jqueryMap, auth_user, delete_auth, initModule ;
 
   jqueryMap = { $form_container: $("#todo-form") }
+
   auth_user = function(form_data, route){
-    
     var email = form_data[0].value;
     var password = form_data[1].value; 
-    var route = "http://recruiting-api.nextcapital.com/users/";
-    console.log("email ");
+    var route = route;
     $.ajax({
       url: route,
       type: "POST",
       data: {email: email, password: password}
     })
       .done(function(result){
+        console.log(configMap);
         localStorage.setItem("api_token", result.api_token);
         localStorage.setItem("id", result.id);
         console.log (todo.user.stateMap.user);
@@ -50,21 +50,37 @@ todo.acct = (function(){
         console.log(error);
         alert(error); 
       })
-  
+  };
+   
+  delete_auth = function(){
+    console.log(configMap);
+    $.ajax({
+     url: todo.routes.logout(),
+     type: "DELETE",
+     data: { api_token: localStorage.api_token, user_id: localStorage.id } 
+    })
+     .done(function(result){
+       localStorage.clear();
+       $("#todo-form").html(configMap.form_html("login"));
+        
+     }) 
   }
+
   initModule = function(){
     if(localStorage.api_token === undefined ){
       $("#todo-form").html(configMap.form_html("login"));
     }  
     $("form").on("submit", function(event){
       event.preventDefault();
-      auth_user($(this).serializeArray());
+      auth_user($(this).serializeArray(), todo.routes.register());
     })    
   }
 
     
   
-  return {initModule: initModule }
+  return { initModule: initModule,
+ 
+        delete_auth: delete_auth }
 
 }());
 

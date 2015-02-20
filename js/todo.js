@@ -3,6 +3,7 @@ var todo = (function(){
       todo.shell.initModule( $container ); 
       todo.user.initModule();
       todo.acct.initModule();
+      todo.routes;
   };
    return {initModule: initModule };
 }());

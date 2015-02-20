@@ -8,7 +8,7 @@ todo.shell = (function(){
           + '<div class="small-12 small-centered columns medium-8  large-8 large-centered">'
       + '<ul class="title-area">'
         + '<li class="name">'
-          + '<h1><a href="#">JustGetItDone</a></h1>'
+          + '<h1><a href="#">DO OR DO NOT</a></h1>'
         + '</li>'
          + '<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->'
         + '<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>'

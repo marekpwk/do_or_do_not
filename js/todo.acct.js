@@ -60,7 +60,6 @@ todo.acct = (function(){
   };
    
   delete_auth = function(){
-    console.log(configMap);
     $.ajax({
      url: todo.routes.logout(),
      type: "DELETE",
@@ -72,29 +71,35 @@ todo.acct = (function(){
        jqueryMap.$nav.find('.right').empty();
         
      }) 
+      .fail(function(xhr,status, error){
+        console.log(error);
+      })
   }
   
   on_login = function(){
-    console.log("inside onlogin");
     jqueryMap.$form.empty();
     jqueryMap.$nav.find('.right').append(configMap.logout_link);
     $(jqueryMap.$nav.find('#logout-link')).click(function(){
       delete_auth();
     });
   }
-
+  
+  submit_form = function(route){
+      jqueryMap.$form.find('form').on("submit", function(event){
+        event.preventDefault();
+        auth_user($(this).serializeArray(), route);
+      }) 
+  }
   initModule = function( $container ){
     stateMap.$container = $container;
     setJqueryMap();
 
     if(localStorage.api_token === undefined ){
       $("#todo-form").html(configMap.form_html("login"));
-      $("form").on("submit", function(event){
-        event.preventDefault();
-        auth_user($(this).serializeArray(), todo.routes.login());
-      }) 
+      submit_form(todo.routes.login());
       $("#signup-link").click(function(){
         $("#todo-form").html(configMap.form_html("register"));
+        submit_form(todo.routes.register());
       })   
     }else{
      on_login();   

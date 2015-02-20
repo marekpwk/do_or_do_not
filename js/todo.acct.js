@@ -81,6 +81,7 @@ todo.acct = (function(){
     jqueryMap.$nav.find('.right').append(configMap.logout_link);
     $(jqueryMap.$nav.find('#logout-link')).click(function(){
       delete_auth();
+      todo = {};
     });
   }
   

@@ -26,10 +26,7 @@ todo.shell = (function(){
           + '<div id="todo-form"></div>'
           + '<div id="todo-list">'
             + '<div id="todo-add-item"></div>'
-            + '<div class="todo-item large-11 columns large-centered">'
-            + '</div>   '
           + '</div>'
-          + '<div class="spa-shell-single-item"></div>'
       + '</div>'
    },
     stateMap = { $container : null },

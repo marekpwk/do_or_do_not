@@ -12,9 +12,12 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, on_login, task_view, get_todos ;
+  stateMap, jqueryMap, setJqueryMap, addTodo, on_login, task_view, get_todos, make_list ;
 
-  stateMap = { $container: null }
+  stateMap = {
+             $container: null, 
+             todoList: {} 
+  }
 
   setJqueryMap = function () {
     var $container = stateMap.$container;
@@ -69,9 +72,17 @@ todo.taskList = (function(){
      data: {api_token: api_token} 
    })
     .done(function(result){
-      console.log(result); 
+      make_list(result);
     })
   
+  }
+
+  make_list = function(json_objects){
+   $.each(json_objects, function(i, todo){
+     stateMap.todoList[todo.id] = todo;
+     $(jqueryMap.$task_list).append(task_view(stateMap.todoList[todo.id]));
+   }) 
+    console.log(stateMap.todoList); 
   }
   initModule = function($container){
      stateMap.$container = $container;

@@ -12,7 +12,7 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, on_login;
+  stateMap, jqueryMap, setJqueryMap, addTodo, on_login, task_view ;
 
   stateMap = { $container: null }
 
@@ -27,17 +27,16 @@ todo.taskList = (function(){
 
       jqueryMap.$container.find('form').on("submit", function(event){
         event.preventDefault();
-        var description = $(this).serializeArray();
-        console.log(description[0]);
-        var id = localStorage.id;
-        var api_token = localStorage.api_token;
+        var description = $(this).serializeArray(),
+        id = localStorage.id,
+        api_token = localStorage.api_token;
         $.ajax({
          url: todo.routes.add_todo(id),
          type: "POST",
          data: {api_token: api_token, todo:{description: description[0].value}}
         })
          .done(function(result){
-            console.log(result)
+           $(jqueryMap.$task_list).append(task_view(result));
          })
          .fail(function(xhr,status, error){
            console.log(error)
@@ -50,7 +49,15 @@ todo.taskList = (function(){
       addTodo();
    };
 
-
+  task_view = function(todo_data){
+      var view = '<div class="todo-item" id="'
+                 + todo_data.id
+                 +'">'
+                 +'<p>'+ todo_data.description + '</p>'
+                 + '<div class="is_complete"></div>'
+                 + '</div>';
+      return view
+  }
   initModule = function($container){
      stateMap.$container = $container;
      setJqueryMap();

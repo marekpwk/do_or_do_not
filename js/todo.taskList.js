@@ -12,7 +12,7 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, on_login, task_view ;
+  stateMap, jqueryMap, setJqueryMap, addTodo, on_login, task_view, get_todos ;
 
   stateMap = { $container: null }
 
@@ -47,6 +47,7 @@ todo.taskList = (function(){
    on_login = function(){
       jqueryMap.$container.find("#todo-list").prepend(configMap.add_task_form) 
       addTodo();
+      get_todos();
    };
 
   task_view = function(todo_data){
@@ -57,6 +58,20 @@ todo.taskList = (function(){
                  + '<div class="is_complete"></div>'
                  + '</div>';
       return view
+  }
+
+  get_todos = function(){
+   var id = localStorage.id,
+       api_token = localStorage.api_token;
+   $.ajax({
+     url: todo.routes.get_todos(id),
+     type: "GET",
+     data: {api_token: api_token} 
+   })
+    .done(function(result){
+      console.log(result); 
+    })
+  
   }
   initModule = function($container){
      stateMap.$container = $container;

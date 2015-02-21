@@ -13,6 +13,9 @@ todo.routes=(function(){
     },
     get_todos: function(user_id){
      return [configMap.host, 'users', user_id, 'todos'].join("/") 
+    },
+    add_todo: function(user_id){
+     return [configMap.host, 'users', user_id, 'todos'].join("/") 
     }
   }
 
@@ -20,6 +23,7 @@ todo.routes=(function(){
    login: configMap.login,
    register: configMap.register,
    logout: configMap.logout,
-   get_todos: configMap.get_todos
+   get_todos: configMap.get_todos,
+   add_todo: configMap.add_todo
  }
 }());

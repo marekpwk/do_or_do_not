@@ -40,6 +40,7 @@ todo.taskList = (function(){
         })
          .done(function(result){
            $(jqueryMap.$task_list).append(task_view(result));
+           $(jqueryMap.$form).find("input[name='description']").val("");
          })
          .fail(function(xhr,status, error){
            console.log(error)
@@ -48,7 +49,8 @@ todo.taskList = (function(){
   };
 
    on_login = function(){
-      jqueryMap.$container.find("#todo-list").prepend(configMap.add_task_form) 
+      jqueryMap.$form = jqueryMap.$container.find("#todo-list");
+      jqueryMap.$form.prepend(configMap.add_task_form) 
       addTodo();
       get_todos();
    };

@@ -48,18 +48,20 @@ todo.taskList = (function(){
       })
   };
 
-    updateTodo = function(todo_id, update_data ){
+    updateTodo = function(task, update_data ){
 
       var id = localStorage.id,
-          todo_id = todo_id,
+          task = task,
           api_token = localStorage.api_token,
           update_desc  = {description: update_data[0].value };
       $.ajax({
-        url : todo.routes.update_todo(id, todo_id),
+        url : todo.routes.update_todo(id, task.id),
         type : "PUT",
         data: {api_token: api_token, todo: update_desc },
         success: function(result){
-          console.log(result);
+          task.description = result.description;
+         $(jqueryMap.$task_list).find("[id="+ task.id +" ]").html(task_view(task)) ;
+         $(jqueryMap.$task_list).find(".todo-item").on('dblclick');
         },
         error: function(xhr, status, error){
           console.log(error);
@@ -69,13 +71,11 @@ todo.taskList = (function(){
 
   editTodo = function(){
     $(jqueryMap.$task_list).find(".todo-item").dblclick(function(){
-     console.log($(this).attr("id"));
-     var todo = $(this);
-     var description = $(todo).find("p").html();
-     var todo_id = todo.attr("id");
-     todo.html(
+     var todo_id = $(this).attr("id");
+     var todo = stateMap.todoList[todo_id];
+     $(this).html(
        String()+'<form id="todo-update"><input type="text" name="description" value="'
-     + description
+     + todo.description
      +' ">'
      + '<input type="submit" value="Update" id="update">'
      + '<a href="#" class="botton">Cancel</a>'
@@ -83,9 +83,8 @@ todo.taskList = (function(){
     $(jqueryMap.$task_list).find(".todo-item").off('dblclick');
      $("form#todo-update").on("submit", function(event){
        event.preventDefault();
-      // console.log($(this).serializeArray());
       var update_data = $(this).serializeArray();
-      updateTodo(todo_id, update_data);
+      updateTodo(todo, update_data);
      })
    })
   }

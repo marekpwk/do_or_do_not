@@ -61,7 +61,7 @@ todo.taskList = (function(){
         success: function(result){
           task.description = result.description;
          $(jqueryMap.$task_list).find("[id="+ task.id +" ]").html(task_view(task)) ;
-         $(jqueryMap.$task_list).find(".todo-item").on('dblclick');
+          editTodo();
         },
         error: function(xhr, status, error){
           console.log(error);
@@ -73,18 +73,25 @@ todo.taskList = (function(){
     $(jqueryMap.$task_list).find(".todo-item").dblclick(function(){
      var todo_id = $(this).attr("id");
      var todo = stateMap.todoList[todo_id];
+     var todo_view = this
      $(this).html(
        String()+'<form id="todo-update"><input type="text" name="description" value="'
      + todo.description
      +' ">'
      + '<input type="submit" value="Update" id="update">'
-     + '<a href="#" class="botton">Cancel</a>'
+     + '<a href="#" id="cancel" class="button">Cancel</a>'
      + '</form>');
     $(jqueryMap.$task_list).find(".todo-item").off('dblclick');
      $("form#todo-update").on("submit", function(event){
        event.preventDefault();
       var update_data = $(this).serializeArray();
       updateTodo(todo, update_data);
+     })
+     $("form#todo-update #cancel").on("click", function(event){
+       event.preventDefault();
+       $(todo_view).html(task_view(todo));
+       // $(jqueryMap.$task_list).find('.todo-item').bind('dblclick');
+       editTodo();
      })
    })
   }

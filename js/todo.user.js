@@ -36,7 +36,6 @@ todo.user = (function(){
         todos: [] 
       }); 
       stateMap.user = stateMap.anon_user;
-    console.log(stateMap.user);
     };
 
    return {

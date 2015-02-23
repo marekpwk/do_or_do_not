@@ -1,8 +1,8 @@
 todo.taskList = (function(){
 
   var configMap = {
-    add_task_form: String()
-     +'<div class="row">'
+    add_task_form:
+     '<div class="row">'
       +'<div class="large-6 large-centered columns">'
       + '<form class="add-task-form">'
          + '<input type="text" value=""  name="description" id="description"/>'
@@ -12,7 +12,7 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, on_login, task_view, get_todos, edit_todo, make_list ;
+  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList ;
 
   stateMap = {
              $container: null,
@@ -25,120 +25,31 @@ todo.taskList = (function(){
       $container: $container,
       $task_list: $container.find('#todo-list')
     }
-   }
-  addTodo = function(){
-
-      jqueryMap.$container.find('form').on("submit", function(event){
-        event.preventDefault();
-        var description = $(this).serializeArray(),
-        id = localStorage.id,
-        api_token = localStorage.api_token;
-        $.ajax({
-         url: todo.routes.add_todo(id),
-         type: "POST",
-         data: {api_token: api_token, todo:{description: description[0].value}}
-        })
-         .done(function(result){
-           $(jqueryMap.$task_list).append(task_view(result));
-           $(jqueryMap.$form).find("input[name='description']").val("");
-         })
-         .fail(function(xhr,status, error){
-           console.log(error)
-       })
-      })
-  };
-
-    updateTodo = function(task, update_data ){
-
-      var id = localStorage.id,
-          task = task,
-          api_token = localStorage.api_token,
-          update_desc  = update_data;
-      $.ajax({
-        url : todo.routes.update_todo(id, task.id),
-        type : "PUT",
-        data: {api_token: api_token, todo: update_desc },
-        success: function(result){
-          console.log("inside update");
-          task.description = result.description;
-          task.is_complete = result.is_complete;
-        $(jqueryMap.$task_list).find("[id="+ task.id +" ]").replaceWith(task_view(task)) ;
-        editTodo();
-        var updated_task_html =  $(jqueryMap.$task_list).find("[id="+ task.id +" ]") ;
-        editSingleTodocomplete(updated_task_html);
-        },
-        error: function(xhr, status, error){
-          console.log(error);
-        }
-      })
-    }
-
-  editTodo = function(){
-    $(jqueryMap.$task_list).find(".todo-item").dblclick(function(){
-     var todo_id = $(this).attr("id");
-     var todo = stateMap.todoList[todo_id];
-     var todo_view = this
-     $(this).html(
-       String()+'<form id="todo-update"><input type="text" name="description" value="'
-     + todo.description
-     +' ">'
-     + '<input type="submit" value="Update" id="update">'
-     + '<a href="#" id="cancel" class="button">Cancel</a>'
-     + '</form>');
-     $(jqueryMap.$task_list).find(".todo-item").off('dblclick');
-     $("form#todo-update").on("submit", function(event){
-       event.preventDefault();
-      var description = { description:  $(this).serializeArray()[0].value };
-      updateTodo(todo, description);
-     })
-     $("form#todo-update #cancel").on("click", function(event){
-       event.preventDefault();
-       $(todo_view).html(task_view(todo));
-       editTodo();
-
-     })
-   })
-  }
-
-  editTodocomplete = function(){
-    $(jqueryMap.$task_list).find('.complete').click(function(){
-     var todo_id = $(this).parent().attr("id"), 
-         todo = stateMap.todoList[todo_id];
-     updateTodo(todo, toggleComplete(todo)); 
-    }) 
-  
-  }
-
-  editSingleTodocomplete = function(todo){
-    console.log(todo);
-    $(todo).click(function(){
-     var todo_id = $(this).attr("id"), 
-         todo = stateMap.todoList[todo_id];
-      console.log(todo);
-     updateTodo(todo, toggleComplete(todo)); 
-    }) 
-  }
-  toggleComplete = function(todo){
-    if(todo.is_complete == true){
-      return { is_complete: false }    
-    }else{
-       return { is_complete: true } 
-    } 
-  }
-   on_login = function(){
-      jqueryMap.$form = jqueryMap.$container.find("#todo-list");
-      jqueryMap.$form.prepend(configMap.add_task_form)
-      addTodo();
-      get_todos();
    };
 
-  task_view = function(todo_data){
+  getTodos = function(){
+   var id = localStorage.id,
+       api_token = localStorage.api_token;
+   $.ajax({
+     url: todo.routes.getTodos(id),
+     type: "GET",
+     data: {api_token: api_token}
+   })
+    .done(function(result){
+      makeTodoList(result);
+      editTodoDescription();
+      editTodoIsComplete();
+    })
+
+  };
+
+  createTodoView = function(todo_data){
       var complete_class, view;
      if(todo_data.is_complete === true){
         complete_class = 'is-complete';
      }else{
-        complete_class = 'is-not-complete'; 
-     } 
+        complete_class = 'is-not-complete';
+     }
       view  = '<div class="todo-item" id="'
                  + todo_data.id
                  +'">'
@@ -148,38 +59,151 @@ todo.taskList = (function(){
                  +'"></div>'
                  + '</div>';
       return view
-  }
+  };
 
-  get_todos = function(){
-   var id = localStorage.id,
-       api_token = localStorage.api_token;
-   $.ajax({
-     url: todo.routes.get_todos(id),
-     type: "GET",
-     data: {api_token: api_token}
-   })
-    .done(function(result){
-      make_list(result);
-      editTodo();
-      editTodocomplete();
-    })
-
-  }
-
-  make_list = function(json_objects){
+  makeTodoList = function(json_objects){
    $.each(json_objects, function(i, todo){
      stateMap.todoList[todo.id] = todo;
-     $(jqueryMap.$task_list).append(task_view(stateMap.todoList[todo.id]));
+     $(jqueryMap.$task_list).append(createTodoView(stateMap.todoList[todo.id]));
    })
-  }
+  };
+
+  addTodo = function(){
+      jqueryMap.$container.find('form').on("submit", function(event){
+        event.preventDefault();
+        var description = $(this).serializeArray(),
+        id = localStorage.id,
+        api_token = localStorage.api_token;
+        $.ajax({
+         url: todo.routes.addTodo(id),
+         type: "POST",
+         data: {api_token: api_token, todo:{description: description[0].value}}
+        })
+         .done(function(result){
+           $(jqueryMap.$task_list).append(createTodoView(result));
+           $(jqueryMap.$form).find("input[name='description']").val("");
+         })
+         .fail(function(xhr,status, error){
+           console.log(error)
+       })
+      })
+  };
+
+  editTodoDescription = function(){
+    $(jqueryMap.$task_list).find(".todo-item").dblclick(function(){
+     var todo_id = $(this).attr("id");
+     var todo = stateMap.todoList[todo_id];
+     var todo_view = this
+     $(this).html(
+       '<form id="todo-update"><input type="text" name="description" value="'
+         + todo.description
+         +' ">'
+         + '<input type="submit" value="Update" id="update">'
+         + '<a href="#" id="cancel" class="button">Cancel</a>'
+       + '</form>');
+     $(jqueryMap.$task_list).find(".todo-item").off('dblclick');
+     $("form#todo-update").on("submit", function(event){
+       event.preventDefault();
+      var description = { description:  $(this).serializeArray()[0].value };
+      updateTodoDescription(todo, description);
+     })
+     $("form#todo-update #cancel").on("click", function(event){
+       event.preventDefault();
+      var updated_todo_view = $(todo_view).html(createTodoView(todo));
+      editTodoDescription();
+      editSingleTodoComplete(updated_todo_view);
+     })
+   })
+  };
+
+  updateTodoDescription = function(task, update_data ){
+    var id = localStorage.id,
+        task = task,
+        api_token = localStorage.api_token,
+        update_desc  = update_data;
+    $.ajax({
+      url : todo.routes.updateTodo(id, task.id),
+      type : "PUT",
+      data: {api_token: api_token, todo: update_desc }
+    })
+      .done(function(result){
+        task.description = result.description;
+        $(jqueryMap.$task_list).find("[id="+ task.id +" ]").replaceWith(createTodoView(task)) ;
+        editTodoDescription();
+        var updated_todo_html =  $(jqueryMap.$task_list).find("[id="+ task.id +" ]") ;
+        editSingleTodoComplete(updated_todo_html);
+      })
+      .fail(function(xhr, status, error){
+        console.log(error);
+      })
+  };
+
+  editTodoIsComplete = function(){
+    $(jqueryMap.$task_list).find('.complete').click(function(){
+       var todo_id = $(this).parent().attr("id"),
+         todo = stateMap.todoList[todo_id];
+       updateTodoIsComplete(todo, toggleIsComplete(todo));
+    })
+  };
+
+  updateTodoIsComplete = function(task, update_data ){
+    var id = localStorage.id,
+        task = task,
+        api_token = localStorage.api_token,
+        update_complete  = update_data;
+    $.ajax({
+      url : todo.routes.updateTodo(id, task.id),
+      type : "PUT",
+      data: {api_token: api_token, todo: update_complete},
+      success: function(result){
+        task.is_complete = result.is_complete;
+        var updated_class = "complete";
+        if(task.is_complete === true){
+          updated_class += " is-complete"
+        }else{
+          updated_class += " is-not-complete"
+        }
+      $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
+      },
+      error: function(xhr, status, error){
+        console.log(error);
+      }
+    })
+  };
+
+  editSingleTodoComplete = function(todo){
+    console.log(todo);
+    $(todo).click(function(){
+     var todo_id = $(this).attr("id"),
+         todo = stateMap.todoList[todo_id];
+     updateTodoIsComplete(todo, toggleIsComplete(todo));
+    })
+  };
+
+  toggleIsComplete = function(todo){
+    if(todo.is_complete == true){
+      return { is_complete: false }
+    }else{
+      return { is_complete: true }
+    }
+  };
+
+   onLogin = function(){
+      jqueryMap.$form = jqueryMap.$container.find("#todo-list");
+      jqueryMap.$form.prepend(configMap.add_task_form)
+      addTodo();
+      getTodos();
+   };
+
   initModule = function($container){
      stateMap.$container = $container;
      setJqueryMap();
-  }
+  };
 
   return {
     initModule: initModule,
-    on_login: on_login
+    onLogin: onLogin
   }
+
 }());
 

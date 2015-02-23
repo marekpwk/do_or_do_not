@@ -11,13 +11,13 @@ todo.routes=(function(){
     logout: function(){
       return [configMap.host, "users/sign_out"].join("/") 
     },
-    get_todos: function(user_id){
+    getTodos: function(user_id){
      return [configMap.host, 'users', user_id, 'todos'].join("/") 
     },
-    add_todo: function(user_id){
+    addTodo: function(user_id){
      return [configMap.host, 'users', user_id, 'todos'].join("/") 
     },
-    update_todo: function(user_id, todo_id){
+    updateTodo: function(user_id, todo_id){
      return [configMap.host, 'users', user_id, 'todos', todo_id].join("/") 
     }
   }
@@ -26,8 +26,8 @@ todo.routes=(function(){
    login: configMap.login,
    register: configMap.register,
    logout: configMap.logout,
-   get_todos: configMap.get_todos,
-   add_todo: configMap.add_todo,
-   update_todo: configMap.update_todo
+   getTodos: configMap.getTodos,
+   addTodo: configMap.addTodo,
+   updateTodo: configMap.updateTodo
  }
 }());

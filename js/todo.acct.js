@@ -28,7 +28,7 @@ todo.acct = (function(){
       },
      logout_link: '<li><a href="#" id="logout-link">Logout</a></li>'
   },
-   jqueryMap, setJqueryMap, stateMap, auth_user, delete_auth, on_login, initModule ;
+   jqueryMap, setJqueryMap, stateMap, auth_user, delete_auth, onLogin, initModule ;
 
   stateMap = { $container: null }
   setJqueryMap = function () {
@@ -52,7 +52,7 @@ todo.acct = (function(){
         localStorage.setItem("api_token", result.api_token);
         localStorage.setItem("id", result.id);
         todo.user.loginUser(result);
-        on_login();
+        onLogin();
       })
       .fail(function(xhr,status, error){
         console.log(error);
@@ -76,10 +76,10 @@ todo.acct = (function(){
       })
   }
 
-  on_login = function(){
+  onLogin = function(){
     jqueryMap.$form.empty();
     jqueryMap.$nav.find('.right').append(configMap.logout_link);
-    todo.taskList.on_login();
+    todo.taskList.onLogin();
     $(jqueryMap.$nav.find('#logout-link')).click(function(){
       delete_auth();
       todo = {};
@@ -103,14 +103,14 @@ todo.acct = (function(){
         submit_form(todo.routes.register());
       })
     }else{
-     on_login();
+     onLogin();
     }
 
   }
 
   return { initModule: initModule,
 
-         on_login: on_login,
+         onLogin: onLogin,
     delete_auth: delete_auth }
 
 }());

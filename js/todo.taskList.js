@@ -5,8 +5,8 @@ todo.taskList = (function(){
      '<div class="row">'
       +'<div class="large-6 large-centered columns">'
       + '<form class="add-task-form">'
-         + '<input type="text" value=""  name="description" id="description"/>'
-         + '<input type="submit" value="Add Task"  class="button small">'
+         + '<input type="text" value=""  name="description" id="description" class="radius" placeholder="New Task Description"/>'
+         + '<input type="submit" value="Add Task"  class="button small radius">'
        + '</form>'
       +'</div>'
     +'</div>'
@@ -50,14 +50,23 @@ todo.taskList = (function(){
      }else{
         complete_class = 'is-not-complete';
      }
-      view  = '<div class="todo-item" id="'
+      view  = '<div class="todo-item large-11 columns large-centered small-12" id="'
                  + todo_data.id
                  +'">'
-                 +'<p>'+ todo_data.description + '</p>'
-                 + '<div class="complete '
-                 + complete_class
-                 +'"></div>'
-                 + '</div>';
+
+                 +'<div class="row">'
+                   +'<div class= "large-1 columns">'
+                     +'<div class="complete '
+                     + complete_class
+                     + '"></div>'
+                   +'</div>'
+
+                   +'<div class="large-10 columns todo-description">'
+                     +'<p>'+ todo_data.description + '</p>'
+                   +'</div>'
+
+               +'</div>'
+             + '</div>';
       return view
   };
 
@@ -80,18 +89,18 @@ todo.taskList = (function(){
          data: {api_token: api_token, todo:{description: description[0].value}}
         })
          .done(function(result){
-           $(jqueryMap.$task_list).append(createTodoView(result));
+           $(jqueryMap.$task_list).prepend(createTodoView(result));
            $(jqueryMap.$form).find("input[name='description']").val("");
          })
          .fail(function(xhr,status, error){
-           console.log(error)
+          console.log(error)
        })
       })
   };
 
   editTodoDescription = function(){
-    $(jqueryMap.$task_list).find(".todo-item").dblclick(function(){
-     var todo_id = $(this).attr("id");
+    $(jqueryMap.$task_list).find(".todo-item .todo-description").dblclick(function(){
+     var todo_id = $(this).parent().parent().attr("id");
      var todo = stateMap.todoList[todo_id];
      var todo_view = this
      $(this).html(
@@ -101,17 +110,18 @@ todo.taskList = (function(){
          + '<input type="submit" value="Update" id="update">'
          + '<a href="#" id="cancel" class="button">Cancel</a>'
        + '</form>');
-     $(jqueryMap.$task_list).find(".todo-item").off('dblclick');
+     $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
      $("form#todo-update").on("submit", function(event){
        event.preventDefault();
       var description = { description:  $(this).serializeArray()[0].value };
       updateTodoDescription(todo, description);
      })
      $("form#todo-update #cancel").on("click", function(event){
-       event.preventDefault();
-      var updated_todo_view = $(todo_view).html(createTodoView(todo));
+      event.preventDefault();
+      $(todo_view).parent().parent().replaceWith(createTodoView(todo));
       editTodoDescription();
-      editSingleTodoComplete(updated_todo_view);
+      console.log(todo.id);
+      editSingleTodoComplete(todo.id);
      })
    })
   };
@@ -130,8 +140,7 @@ todo.taskList = (function(){
         task.description = result.description;
         $(jqueryMap.$task_list).find("[id="+ task.id +" ]").replaceWith(createTodoView(task)) ;
         editTodoDescription();
-        var updated_todo_html =  $(jqueryMap.$task_list).find("[id="+ task.id +" ]") ;
-        editSingleTodoComplete(updated_todo_html);
+        editSingleTodoComplete(task.id);
       })
       .fail(function(xhr, status, error){
         console.log(error);
@@ -140,8 +149,8 @@ todo.taskList = (function(){
 
   editTodoIsComplete = function(){
     $(jqueryMap.$task_list).find('.complete').click(function(){
-       var todo_id = $(this).parent().attr("id"),
-         todo = stateMap.todoList[todo_id];
+       var todo_id = $(this).parent().parent().parent().attr("id");
+       var todo = stateMap.todoList[todo_id];
        updateTodoIsComplete(todo, toggleIsComplete(todo));
     })
   };
@@ -154,8 +163,9 @@ todo.taskList = (function(){
     $.ajax({
       url : todo.routes.updateTodo(id, task.id),
       type : "PUT",
-      data: {api_token: api_token, todo: update_complete},
-      success: function(result){
+      data: {api_token: api_token, todo: update_complete}
+    })
+      .done(function(result){
         task.is_complete = result.is_complete;
         var updated_class = "complete";
         if(task.is_complete === true){
@@ -164,19 +174,17 @@ todo.taskList = (function(){
           updated_class += " is-not-complete"
         }
       $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
-      },
-      error: function(xhr, status, error){
+      })
+      .fail(function(xhr, status, error){
         console.log(error);
-      }
-    })
+      })
   };
 
-  editSingleTodoComplete = function(todo){
-    console.log(todo);
-    $(todo).click(function(){
-     var todo_id = $(this).attr("id"),
-         todo = stateMap.todoList[todo_id];
-     updateTodoIsComplete(todo, toggleIsComplete(todo));
+  editSingleTodoComplete = function(task_id){
+      var task_id = task_id;
+      $(jqueryMap.$task_list).find( "[id="+ task_id +" ] .complete").click(function(){
+         var task = stateMap.todoList[task_id];
+         updateTodoIsComplete(task, toggleIsComplete(task));
     })
   };
 
@@ -189,7 +197,7 @@ todo.taskList = (function(){
   };
 
    onLogin = function(){
-      jqueryMap.$form = jqueryMap.$container.find("#todo-list");
+      jqueryMap.$form = jqueryMap.$container.find("#todo-add-form");
       jqueryMap.$form.prepend(configMap.add_task_form)
       addTodo();
       getTodos();

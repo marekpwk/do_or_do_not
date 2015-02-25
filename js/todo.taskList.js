@@ -57,7 +57,7 @@ todo.taskList = (function(){
      }else{
         complete_class = 'is-not-complete';
      }
-      view  = '<div class="todo-item small-11  columns small-centered" id="'
+      view  = '<div class="todo-item small-12  columns small-centered" id="'
                  + todo_data.id
                  +'">'
 
@@ -68,7 +68,7 @@ todo.taskList = (function(){
                      + '"></div>'
                    +'</div>'
 
-                   +'<div class="small-8 columns todo-description">'
+                   +'<div class="small-10 columns todo-description">'
                      +'<p>'+ todo_data.description+ '</p>'
                    +'</div>'
 
@@ -126,7 +126,7 @@ todo.taskList = (function(){
        +'<div class="small-4 columns">'
         +'<ul class="button-group postfix">'
          + '<li><input type="submit" value="Update" id="update" class="button tiny "></li>'
-         + '<li><a href="#" id="cancel" class="button tiny">Cancel</a></li>'
+         + '<li><a href="#" id="cancel" class="button tiny">CANCEL</a></li>'
        + '</ul>'
        +'</div>'
        + '</form>');

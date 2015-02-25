@@ -10,7 +10,7 @@ todo.acct = (function(){
          + form_type
          +' radius">'
          + '<input type="text" value=""  name="email" id="email" class="radius" placeholder="Email"/>'
-         + '<input type="text" value=""  name="password" id="password" class="radius" placeholder="Password"/>'
+         + '<input type="password" value=""  name="password" id="password" class="radius" placeholder="Password"/>'
          + '<input type="submit" value="'
          + form_type
          + '" id="'

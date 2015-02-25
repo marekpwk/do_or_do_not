@@ -47,31 +47,33 @@ form.login{
 #todo-update .postfix{
   border: none;
 }
+#todo-update {
+  margin-bottom: -3%;
+}
+#cancel{
+  background-color: rgb(182, 8, 8);
+}
 #todo-list{
   border: 1px solid black;
   background-color: white;
+  padding: 10px;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 .todo-wrapper{
   position: relative;
 }
 .todo-item{
-  margin-top: 5px;
   margin-bottom: 5px;
   background-color: rgb(227, 234, 236);
   overflow: auto;
-  min-height: 100px;
+  min-height: 50px;
   position: relative;
 }
 .todo-description {
     position: absolute;
     left: 50%;
     top: 50%;
-    
-    /*
-    *  Where the magic happens
-    *  Centering method from CSS Tricks
-    *  http://css-tricks.com/centering-percentage-widthheight-elements/
-    */
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
@@ -79,12 +81,13 @@ form.login{
 }
 .todo-description p {
   margin-bottom: 0;
-  font-size: 2em;
+  font-size: 1em;
   color: rgb(52, 59, 68)
 }
 .complete{
-  width: 100px;
-  height: 100px;
+  margin-left: -15px;
+  width: 50px;
+  height: 50px;
 }
 .is-complete{
   background-color: green;

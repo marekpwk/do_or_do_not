@@ -1,32 +1,105 @@
 /* div.todo-main-content{ */
 /*   min-height: 400px; */
 /* } */
-#todo-form{
-  min-height: 100px;
-  background-color: brown;
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body{
+  background-color: #DBE3E5;
+}
+.top-bar li.name h1 a{
+  font-weight: bold;
+}
+.top-bar{
+  background-color: #383f47;
+}
+#todo-welcome-form{
+  background-color: white;
+}
+form input[type=submit]{
+  text-transform: uppercase;
+  background-color: #5D747B;
+}
+form input[type=submit]:hover{
+  background-color: #53676E;
+}
+form input[type=submit]:visited{
+  background-color: #53676E;
+}
+form input[type=submit]:focus{
+  background-color: #53676E;
+}
+form.login{
+  padding: 5px 5px;
+  border: 1px solid white;
+  margin-top: 5%;
+}
+#logout-link{
+  text-transform: uppercase;
+  background-color: #4C5356;
+}
+#register-link, #login-link {
+  color: rgb(56, 62, 68);
+}
+#todo-add-form{
+  margin-top: 3%;
+}
+#todo-update .postfix{
+  border: none;
+}
+#todo-update {
+  margin-bottom: -3%;
+}
+#cancel{
+  background-color: rgb(182, 8, 8);
 }
 #todo-list{
-  min-height: 200px;
-  background-color: green;
+  border-radius: 4px;
+  background-color: white;
+  padding: 10px;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
-#todo-add-item{
-  min-height:50px;
-  background-color: red;
+.todo-wrapper{
+  position: relative;
 }
 .todo-item{
-  margin-top: 5px;
   margin-bottom: 5px;
-  min-height:50px;
-  background-color: blue;
+  border-radius: 2px;
+  background-color: rgb(227, 234, 236);
   overflow: auto;
+  min-height: 50px;
+  position: relative;
+}
+.todo-item i{
+  position: absolute;
+  top: 2%;
+  left: 6%;
+  font-size: 3em;
+  color: yellow;
+}
+.todo-description {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.todo-description p {
+  margin-bottom: 0;
+  font-size: 1em;
+  color: rgb(52, 59, 68)
 }
 .complete{
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
 }
-.is-complete{
-  background-color: green;
+.is-complete i{
+  color: green;
 }
-.is-not-complete{
-  background-color: red;
+.is-not-complete i{
+  color: red;
 }
+

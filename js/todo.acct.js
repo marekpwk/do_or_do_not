@@ -8,18 +8,18 @@ todo.acct = (function(){
       +'<div class="large-6 large-centered columns">'
       + '<form class="'
          + form_type
-         +'">'
-         + '<input type="text" value=""  name="email" id="email"/>'
-         + '<input type="text" value=""  name="password" id="password"/>'
+         +' radius">'
+         + '<input type="text" value=""  name="email" id="email" class="radius" placeholder="Email"/>'
+         + '<input type="password" value=""  name="password" id="password" class="radius" placeholder="Password"/>'
          + '<input type="submit" value="'
          + form_type
          + '" id="'
          + form_type
-         + '" class="button small">'
+         + '" class="button small radius">'
        + '</form>';
 
      if(form_type === "login"){
-       link = '<a href="#" id="signup-link">Register</a>';
+       link = '<a href="#" id="register-link">Register</a>';
      }else{
        link = '<a href="#" id="sigin-link">SignIn</a>';
      }
@@ -36,7 +36,7 @@ todo.acct = (function(){
     jqueryMap = {
       $container: $container,
       $nav: $container.find('nav'),
-      $form: $container.find('#todo-form')
+      $form: $container.find('#todo-welcome-form')
     }
    }
   auth_user = function(form_data, route){
@@ -67,7 +67,7 @@ todo.acct = (function(){
     })
      .done(function(result){
        localStorage.clear();
-       $("#todo-form").html(configMap.form_html("login"));
+       $("#todo-welcome-form").html(configMap.form_html("login"));
        jqueryMap.$nav.find('.right').empty();
 
      })
@@ -96,10 +96,10 @@ todo.acct = (function(){
     stateMap.$container = $container;
     setJqueryMap();
     if(localStorage.api_token === undefined ){
-      $("#todo-form").html(configMap.form_html("login"));
+      $("#todo-welcome-form").html(configMap.form_html("login"));
       submit_form(todo.routes.login());
-      $("#signup-link").click(function(){
-        $("#todo-form").html(configMap.form_html("register"));
+      $("#register-link").click(function(){
+        $("#todo-welcome-form").html(configMap.form_html("register"));
         submit_form(todo.routes.register());
       })
     }else{

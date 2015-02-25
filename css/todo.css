@@ -1,6 +1,9 @@
 /* div.todo-main-content{ */
 /*   min-height: 400px; */
 /* } */
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 body{
   background-color: #DBE3E5;
 }
@@ -17,6 +20,15 @@ form input[type=submit]{
   text-transform: uppercase;
   background-color: #5D747B;
 }
+form input[type=submit]:hover{
+  background-color: #53676E;
+}
+form input[type=submit]:visited{
+  background-color: #53676E;
+}
+form input[type=submit]:focus{
+  background-color: #53676E;
+}
 form.login{
   padding: 5px 5px;
   border: 1px solid white;
@@ -32,22 +44,47 @@ form.login{
 #todo-add-form{
   padding: 10px;
 }
+#todo-update .postfix{
+  border: none;
+}
 #todo-list{
+  border: 1px solid black;
   background-color: white;
+}
+.todo-wrapper{
+  position: relative;
 }
 .todo-item{
   margin-top: 5px;
   margin-bottom: 5px;
-  background-color: blue;
+  background-color: rgb(227, 234, 236);
   overflow: auto;
+  min-height: 100px;
+  position: relative;
+}
+.todo-description {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    
+    /*
+    *  Where the magic happens
+    *  Centering method from CSS Tricks
+    *  http://css-tricks.com/centering-percentage-widthheight-elements/
+    */
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.todo-description p {
+  margin-bottom: 0;
+  font-size: 2em;
+  color: rgb(52, 59, 68)
 }
 .complete{
   width: 100px;
   height: 100px;
-}
-.todo-description{
-  min-height: 100px;
-  min-width: 100px;
 }
 .is-complete{
   background-color: green;

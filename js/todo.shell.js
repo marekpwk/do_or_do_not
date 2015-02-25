@@ -5,7 +5,7 @@ todo.shell = (function(){
      main_html : String()
         + '<nav class="top-bar" data-topbar role="navigation">'
           + '<div class="row">     '
-          + '<div class="small-12 small-centered columns medium-8  large-8 large-centered">'
+          + '<div class="small-12 small-centered columns medium-8  large-7 large-centered">'
       + '<ul class="title-area">'
         + '<li class="name">'
           + '<h1><a href="#">DO OR DO NOT</a></h1>'
@@ -21,7 +21,7 @@ todo.shell = (function(){
     + '</div>'
       + '</nav>'
       + '<div class="row">'
-        + '<div class="small-12 columns todo-main-content">'
+        + '<div class="small-10 columns small-centered todo-main-content">'
           + '<div id="todo-welcome-form"></div>'
           + '<div id="todo-add-form"></div>'
           + '<div id="todo-list" class="row"></div>'

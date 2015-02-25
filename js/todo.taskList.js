@@ -3,10 +3,17 @@ todo.taskList = (function(){
   var configMap = {
     add_task_form:
      '<div class="row">'
-      +'<div class="large-6 large-centered columns">'
+      +'<div class="small-8 small-centered columns">'
       + '<form class="add-task-form">'
-         + '<input type="text" value=""  name="description" id="description" class="radius" placeholder="New Task Description"/>'
-         + '<input type="submit" value="Add Task"  class="button small radius">'
+       +'<div class="row collapse">'
+        +'<div class="small-10 columns">'
+         + '<input type="text" value=""  name="description" id="description" class=radius"" placeholder="New Task Description"/>'
+        +'</div>'
+        +'<div class="small-2 columns">'
+         + '<input type="submit" value="Add Task"  class="button radius postfix">'
+        +'</div>'
+
+      +'</div>'
        + '</form>'
       +'</div>'
     +'</div>'
@@ -50,19 +57,19 @@ todo.taskList = (function(){
      }else{
         complete_class = 'is-not-complete';
      }
-      view  = '<div class="todo-item large-11 columns large-centered small-12" id="'
+      view  = '<div class="todo-item small-11  columns small-centered" id="'
                  + todo_data.id
                  +'">'
 
-                 +'<div class="row">'
-                   +'<div class= "large-1 columns">'
-                     +'<div class="complete '
+                 +'<div class=" row todo-wrapper">'
+                   +'<div class=" radius small-2 columns">'
+                     +'<div class="complete  '
                      + complete_class
                      + '"></div>'
                    +'</div>'
 
-                   +'<div class="large-10 columns todo-description">'
-                     +'<p>'+ todo_data.description + '</p>'
+                   +'<div class="small-8 columns todo-description">'
+                     +'<p>'+ todo_data.description+ '</p>'
                    +'</div>'
 
                +'</div>'
@@ -91,6 +98,11 @@ todo.taskList = (function(){
          .done(function(result){
            $(jqueryMap.$task_list).prepend(createTodoView(result));
            $(jqueryMap.$form).find("input[name='description']").val("");
+           var task = todo.task.makeTodo(result);
+           stateMap.todoList[task.id] = task;
+           editSingleTodoComplete(task.id);
+           $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
+           editTodoDescription();
          })
          .fail(function(xhr,status, error){
           console.log(error)
@@ -102,13 +114,21 @@ todo.taskList = (function(){
     $(jqueryMap.$task_list).find(".todo-item .todo-description").dblclick(function(){
      var todo_id = $(this).parent().parent().attr("id");
      var todo = stateMap.todoList[todo_id];
-     var todo_view = this
+     var todo_view = this;
      $(this).html(
-       '<form id="todo-update"><input type="text" name="description" value="'
+       '<form id="todo-update">'
+        +'<div class="row collapse">'
+        +'<div class="small-8 columns">'
+         +'<input type="text" name="description" value="'
          + todo.description
          +' ">'
-         + '<input type="submit" value="Update" id="update">'
-         + '<a href="#" id="cancel" class="button">Cancel</a>'
+       +'</div>'
+       +'<div class="small-4 columns">'
+        +'<ul class="button-group postfix">'
+         + '<li><input type="submit" value="Update" id="update" class="button tiny "></li>'
+         + '<li><a href="#" id="cancel" class="button tiny">Cancel</a></li>'
+       + '</ul>'
+       +'</div>'
        + '</form>');
      $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
      $("form#todo-update").on("submit", function(event){
@@ -120,7 +140,6 @@ todo.taskList = (function(){
       event.preventDefault();
       $(todo_view).parent().parent().replaceWith(createTodoView(todo));
       editTodoDescription();
-      console.log(todo.id);
       editSingleTodoComplete(todo.id);
      })
    })

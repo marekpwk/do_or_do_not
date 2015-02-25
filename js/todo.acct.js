@@ -36,7 +36,9 @@ todo.acct = (function(){
     jqueryMap = {
       $container: $container,
       $nav: $container.find('nav'),
-      $form: $container.find('#todo-welcome-form')
+      $welcomeForm: $container.find('#todo-welcome-form'),
+      $addForm: $container.find("#todo-add-form"),
+      $todoList: $container.find("#todo-list")
     }
    }
   auth_user = function(form_data, route){
@@ -67,7 +69,7 @@ todo.acct = (function(){
     })
      .done(function(result){
        localStorage.clear();
-       $("#todo-welcome-form").html(configMap.form_html("login"));
+       jqueryMap.$welcomeForm.html(configMap.form_html("login"));
        jqueryMap.$nav.find('.right').empty();
 
      })
@@ -77,21 +79,28 @@ todo.acct = (function(){
   }
 
   onLogin = function(){
-    jqueryMap.$form.empty();
+    jqueryMap.$welcomeForm.empty();
     jqueryMap.$nav.find('.right').append(configMap.logout_link);
     todo.taskList.onLogin();
     $(jqueryMap.$nav.find('#logout-link')).click(function(){
       delete_auth();
       todo = {};
-    });
-  }
+      emptyContainers();
+    })
+  };
 
   submit_form = function(route){
-      jqueryMap.$form.find('form').on("submit", function(event){
+      jqueryMap.$welcomeForm.find('form').on("submit", function(event){
         event.preventDefault();
         auth_user($(this).serializeArray(), route);
       })
-  }
+  };
+
+  emptyContainers = function(){
+    jqueryMap.$welcomeForm.empty(); 
+    jqueryMap.$addForm.empty(); 
+    jqueryMap.$todoList.empty(); 
+  };
   initModule = function( $container ){
     stateMap.$container = $container;
     setJqueryMap();
@@ -99,7 +108,7 @@ todo.acct = (function(){
       $("#todo-welcome-form").html(configMap.form_html("login"));
       submit_form(todo.routes.login());
       $("#register-link").click(function(){
-        $("#todo-welcome-form").html(configMap.form_html("register"));
+        jqueryMap.$welcomeForm.html(configMap.form_html("register"));
         submit_form(todo.routes.register());
       })
     }else{
@@ -109,9 +118,9 @@ todo.acct = (function(){
   }
 
   return { initModule: initModule,
-
-         onLogin: onLogin,
-    delete_auth: delete_auth }
+           onLogin: onLogin,
+           delete_auth: delete_auth 
+  }
 
 }());
 

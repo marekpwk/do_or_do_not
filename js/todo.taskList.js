@@ -57,7 +57,7 @@ todo.taskList = (function(){
      }else{
         complete_class = 'is-not-complete';
      }
-      view  = '<div class="todo-item small-12  columns small-centered" id="'
+      view  = '<div class="radius todo-item small-12  columns small-centered" id="'
                  + todo_data.id
                  +'">'
 
@@ -65,11 +65,13 @@ todo.taskList = (function(){
                    +'<div class=" radius small-2 columns">'
                      +'<div class="complete  '
                      + complete_class
-                     + '"></div>'
+                     + '">'
+                     +'<i class="fa fa-check-circle-o"></i>'
+                    +'</div>'
                    +'</div>'
 
                    +'<div class="small-10 columns todo-description">'
-                     +'<p>'+ todo_data.description+ '</p>'
+                     +'<p>'+  todo_data.description + '</p>'
                    +'</div>'
 
                +'</div>'

@@ -42,7 +42,7 @@ form.login{
   color: rgb(56, 62, 68);
 }
 #todo-add-form{
-  padding: 10px;
+  margin-top: 3%;
 }
 #todo-update .postfix{
   border: none;
@@ -54,7 +54,7 @@ form.login{
   background-color: rgb(182, 8, 8);
 }
 #todo-list{
-  border: 1px solid black;
+  border-radius: 4px;
   background-color: white;
   padding: 10px;
   margin-top: 1%;
@@ -65,10 +65,18 @@ form.login{
 }
 .todo-item{
   margin-bottom: 5px;
+  border-radius: 2px;
   background-color: rgb(227, 234, 236);
   overflow: auto;
   min-height: 50px;
   position: relative;
+}
+.todo-item i{
+  position: absolute;
+  top: 2%;
+  left: 6%;
+  font-size: 3em;
+  color: yellow;
 }
 .todo-description {
     position: absolute;
@@ -85,14 +93,13 @@ form.login{
   color: rgb(52, 59, 68)
 }
 .complete{
-  margin-left: -15px;
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
 }
-.is-complete{
-  background-color: green;
+.is-complete i{
+  color: green;
 }
-.is-not-complete{
-  background-color: red;
+.is-not-complete i{
+  color: red;
 }
 

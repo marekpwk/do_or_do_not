@@ -1,6 +1,10 @@
 todo.acct = (function(){
 
   var configMap = {
+    welcomeSlogan: '<div id="welcome-slogan" class="row">'
+        + '<p class="text-center">D<i class="fa fa-check-circle-o first-o"></i> OR D<i class="fa fa-check-circle-o second-o"></i> NOT'
+        + '<p class="text-center slogan-second">THERE IS NO TRY</p><p class="text-center slogan-third">ULTIMATE TODO APP<p>' 
+        +  '</div>',
     form_html: function(form_type){
       var link,
       new_form =
@@ -72,6 +76,7 @@ todo.acct = (function(){
      .done(function(result){
        localStorage.clear();
        jqueryMap.$welcomeForm.html(configMap.form_html('login'));
+       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
        jqueryMap.$nav.find('.right').empty();
 
      })
@@ -85,7 +90,8 @@ todo.acct = (function(){
     jqueryMap.$welcomeForm.empty();
     jqueryMap.$nav.find('.right').append(configMap.logout_link);
     todo.taskList.onLogin();
-    $(jqueryMap.$nav.find('#logout-link')).click(function(){
+    $(jqueryMap.$nav.find('#logout-link')).click(function(event){
+      event.preventDefault();
       delete_auth();
       todo = {};
       emptyContainers();
@@ -100,7 +106,6 @@ todo.acct = (function(){
         if(form_data[0].value === '' || form_data[1] === ''){
          var alert_message = 'Email or password can not be empty.'
          jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message));
-         // return false;
         }
         else{
           jqueryMap.$welcomeForm.find('.alert-box').remove();
@@ -120,6 +125,7 @@ todo.acct = (function(){
     setJqueryMap();
     if(localStorage.api_token === undefined ){
       $('#todo-welcome-form').html(configMap.form_html('login'));
+      $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
       submit_form(todo.routes.login());
       $('#register-link').click(function(){
         jqueryMap.$welcomeForm.html(configMap.form_html('register'));

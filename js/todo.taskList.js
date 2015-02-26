@@ -127,8 +127,8 @@ todo.taskList = (function(){
        +'</div>'
        +'<div class="small-4 columns">'
         +'<ul class="button-group postfix">'
-         + '<li><input type="submit" value="Update" id="update" class="button tiny "></li>'
-         + '<li><a href="#" id="cancel" class="button tiny">CANCEL</a></li>'
+         + '<li><input type="submit" value="Update" id="update" class="button tiny radius"></li>'
+         + '<li><a href="#" id="cancel" class="button tiny radius">CANCEL</a></li>'
        + '</ul>'
        +'</div>'
        + '</form>');
@@ -222,7 +222,12 @@ todo.taskList = (function(){
       jqueryMap.$form.prepend(configMap.add_task_form)
       addTodo();
       getTodos();
+      sortTodos();
    };
+
+  sortTodos = function(){
+   $("#todo-list").sortable(); 
+  }
 
   initModule = function($container){
      stateMap.$container = $container;

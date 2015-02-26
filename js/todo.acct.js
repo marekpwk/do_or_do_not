@@ -18,7 +18,7 @@ todo.acct = (function(){
          + '" class="button small radius">'
        + '</form>';
 
-     if(form_type === "login"){
+     if(form_type === 'login'){
        link = '<a href="#" id="register-link">Register</a>';
      }else{
        link = '<a href="#" id="sigin-link">SignIn</a>';
@@ -37,8 +37,8 @@ todo.acct = (function(){
       $container: $container,
       $nav: $container.find('nav'),
       $welcomeForm: $container.find('#todo-welcome-form'),
-      $addForm: $container.find("#todo-add-form"),
-      $todoList: $container.find("#todo-list")
+      $addForm: $container.find('#todo-add-form'),
+      $todoList: $container.find('#todo-list')
     }
    }
   auth_user = function(form_data, route){
@@ -47,12 +47,12 @@ todo.acct = (function(){
     var route = route;
     $.ajax({
       url: route,
-      type: "POST",
+      type: 'POST',
       data: {email: email, password: password}
     })
       .done(function(result){
-        localStorage.setItem("api_token", result.api_token);
-        localStorage.setItem("id", result.id);
+        localStorage.setItem('api_token', result.api_token);
+        localStorage.setItem('id', result.id);
         todo.user.loginUser(result);
         onLogin();
       })
@@ -64,12 +64,12 @@ todo.acct = (function(){
   delete_auth = function(){
     $.ajax({
      url: todo.routes.logout(),
-     type: "DELETE",
+     type: 'DELETE',
      data: { api_token: localStorage.api_token, user_id: localStorage.id }
     })
      .done(function(result){
        localStorage.clear();
-       jqueryMap.$welcomeForm.html(configMap.form_html("login"));
+       jqueryMap.$welcomeForm.html(configMap.form_html('login'));
        jqueryMap.$nav.find('.right').empty();
 
      })
@@ -90,9 +90,15 @@ todo.acct = (function(){
   };
 
   submit_form = function(route){
-      jqueryMap.$welcomeForm.find('form').on("submit", function(event){
+      jqueryMap.$welcomeForm.find('form').on('submit', function(event){
         event.preventDefault();
-        auth_user($(this).serializeArray(), route);
+        var form_data = $(this).serializeArray();
+        if(form_data[0].value === '' || form_data[1] === ''){
+          console.log("err"); 
+        }
+        else{
+          auth_user($(this).serializeArray(), route);
+        }
       })
   };
 
@@ -105,10 +111,10 @@ todo.acct = (function(){
     stateMap.$container = $container;
     setJqueryMap();
     if(localStorage.api_token === undefined ){
-      $("#todo-welcome-form").html(configMap.form_html("login"));
+      $('#todo-welcome-form').html(configMap.form_html('login'));
       submit_form(todo.routes.login());
-      $("#register-link").click(function(){
-        jqueryMap.$welcomeForm.html(configMap.form_html("register"));
+      $('#register-link').click(function(){
+        jqueryMap.$welcomeForm.html(configMap.form_html('register'));
         submit_form(todo.routes.register());
       })
     }else{

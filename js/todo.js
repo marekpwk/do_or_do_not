@@ -4,7 +4,6 @@ var todo = (function(){
       todo.user.initModule();
       todo.taskList.initModule($container);
       todo.acct.initModule($container);
-      todo.routes;
   };
    return {initModule: initModule };
 }());

@@ -19,7 +19,7 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList, sortTodos, alertBox ;
+  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList, sortTodos ;
 
   stateMap = {
              $container: null,
@@ -95,7 +95,7 @@ todo.taskList = (function(){
         api_token = localStorage.api_token;
           if(description[0].value === ""){
              var alert_message = 'Whoops! Description can not be empty.';
-             jqueryMap.$addForm.find('#todo-add-form-alert').html(alertBox(alert_message));
+             jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
           } else {
              jqueryMap.$addForm.find('#todo-add-form-alert').html('');
               $.ajax({
@@ -237,12 +237,6 @@ todo.taskList = (function(){
    $("#todo-list").sortable(); 
   };
 
- alertBox = function(alert_message){
-    var box = '<div class=" small-9 columns small-centered alert-box alert radius">'
-      + alert_message
-    +'</div>'
-    return box
- };
 
   initModule = function($container){
      stateMap.$container = $container;

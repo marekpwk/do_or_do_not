@@ -40,7 +40,8 @@ todo.acct = (function(){
       $addForm: $container.find('#todo-add-form'),
       $todoList: $container.find('#todo-list')
     }
-   }
+   };
+
   auth_user = function(form_data, route){
     var email = form_data[0].value;
     var password = form_data[1].value;
@@ -57,7 +58,8 @@ todo.acct = (function(){
         onLogin();
       })
       .fail(function(xhr,status, error){
-        console.log(error);
+        var alert_message = 'Whoops! Incorrect email or password. Try again:)'
+        jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message));
       })
   };
 
@@ -74,7 +76,8 @@ todo.acct = (function(){
 
      })
       .fail(function(xhr,status, error){
-        console.log(error);
+        var alert_message = 'Whoops! Something went wrong, try again in a minute.'
+        jqueryMap.$welcomeForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   }
 
@@ -95,7 +98,7 @@ todo.acct = (function(){
         jqueryMap.$welcomeForm.find('.alert-box').remove();
         var form_data = $(this).serializeArray();
         if(form_data[0].value === '' || form_data[1] === ''){
-         var alert_message = "Email or password can not be empty."
+         var alert_message = 'Email or password can not be empty.'
          jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message));
          // return false;
         }

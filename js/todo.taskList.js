@@ -31,7 +31,7 @@ todo.taskList = (function(){
     jqueryMap = {
       $container: $container,
       $task_list: $container.find('#todo-list'),
-      $addForm: $container.find("#todo-add-form")
+      $addForm: $container.find('#todo-add-form')
     }
    };
 
@@ -40,7 +40,7 @@ todo.taskList = (function(){
        api_token = localStorage.api_token;
    $.ajax({
      url: todo.routes.getTodos(id),
-     type: "GET",
+     type: 'GET',
      data: {api_token: api_token}
    })
     .done(function(result){
@@ -88,12 +88,12 @@ todo.taskList = (function(){
   };
 
   addTodo = function(){
-      jqueryMap.$container.find('form').on("submit", function(event){
+      jqueryMap.$container.find('form').on('submit', function(event){
         event.preventDefault();
         var description = $(this).serializeArray(),
         id = localStorage.id,
         api_token = localStorage.api_token;
-          if(description[0].value === ""){
+          if(description[0].value === ''){
              var alert_message = 'Whoops! Description can not be empty.';
              jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
           } else {
@@ -113,7 +113,8 @@ todo.taskList = (function(){
                  editTodoDescription();
                })
                .fail(function(xhr,status, error){
-                console.log(error)
+                var alert_message = "Whoops! Something went wrong, try again in a minute."
+                jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
              })
 
         }
@@ -172,7 +173,8 @@ todo.taskList = (function(){
         editSingleTodoComplete(task.id);
       })
       .fail(function(xhr, status, error){
-        console.log(error);
+        var alert_message = "Whoops! Something went wrong, try again in a minute."
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   };
 
@@ -205,7 +207,8 @@ todo.taskList = (function(){
       $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
       })
       .fail(function(xhr, status, error){
-        console.log(error);
+        var alert_message = "Whoops! Something went wrong, try again in a minute."
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   };
 

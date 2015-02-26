@@ -1,11 +1,21 @@
-/* div.todo-main-content{ */
-/*   min-height: 400px; */
-/* } */
-* {
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
 body{
+  font-family: 'Raleway', sans-serif;
   background-color: #DBE3E5;
+}
+#welcome-slogan p{
+  font-size: 2em;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 0;
+}
+#welcome-slogan .first-o {
+  color: green;
+}
+#welcome-slogan .second-o {
+  color: red;
+}
+#welcome-slogan .slogan-third {
+  font-size: 1em;
 }
 .top-bar li.name h1 a{
   font-weight: bold;
@@ -14,6 +24,7 @@ body{
   background-color: #383f47;
 }
 #todo-welcome-form{
+  border-radius: 5px;
   margin-top: 10%;
   background-color: white;
 }

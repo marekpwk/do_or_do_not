@@ -54,6 +54,9 @@ form.login, form.register{
 #cancel{
   background-color: rgb(182, 8, 8);
 }
+.alert-box p{
+  margin-bottom: 0;
+}
 #todo-list{
   border-radius: 4px;
   background-color: white;

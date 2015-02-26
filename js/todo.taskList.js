@@ -19,7 +19,7 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList ;
+  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList, sortTodos ;
 
   stateMap = {
              $container: null,
@@ -30,7 +30,8 @@ todo.taskList = (function(){
     var $container = stateMap.$container;
     jqueryMap = {
       $container: $container,
-      $task_list: $container.find('#todo-list')
+      $task_list: $container.find('#todo-list'),
+      $addForm: $container.find('#todo-add-form')
     }
    };
 
@@ -39,7 +40,7 @@ todo.taskList = (function(){
        api_token = localStorage.api_token;
    $.ajax({
      url: todo.routes.getTodos(id),
-     type: "GET",
+     type: 'GET',
      data: {api_token: api_token}
    })
     .done(function(result){
@@ -87,28 +88,36 @@ todo.taskList = (function(){
   };
 
   addTodo = function(){
-      jqueryMap.$container.find('form').on("submit", function(event){
+      jqueryMap.$container.find('form').on('submit', function(event){
         event.preventDefault();
         var description = $(this).serializeArray(),
         id = localStorage.id,
         api_token = localStorage.api_token;
-        $.ajax({
-         url: todo.routes.addTodo(id),
-         type: "POST",
-         data: {api_token: api_token, todo:{description: description[0].value}}
-        })
-         .done(function(result){
-           $(jqueryMap.$task_list).prepend(createTodoView(result));
-           $(jqueryMap.$form).find("input[name='description']").val("");
-           var task = todo.task.makeTodo(result);
-           stateMap.todoList[task.id] = task;
-           editSingleTodoComplete(task.id);
-           $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
-           editTodoDescription();
-         })
-         .fail(function(xhr,status, error){
-          console.log(error)
-       })
+          if(description[0].value === ''){
+             var alert_message = 'Whoops! Description can not be empty.';
+             jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+          } else {
+             jqueryMap.$addForm.find('#todo-add-form-alert').html('');
+              $.ajax({
+               url: todo.routes.addTodo(id),
+               type: "POST",
+               data: {api_token: api_token, todo:{description: description[0].value}}
+              })
+               .done(function(result){
+                 $(jqueryMap.$task_list).prepend(createTodoView(result));
+                 $(jqueryMap.$form).find("input[name='description']").val("");
+                 var task = todo.task.makeTodo(result);
+                 stateMap.todoList[task.id] = task;
+                 editSingleTodoComplete(task.id);
+                 $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
+                 editTodoDescription();
+               })
+               .fail(function(xhr,status, error){
+                var alert_message = "Whoops! Something went wrong, try again in a minute."
+                jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+             })
+
+        }
       })
   };
 
@@ -133,12 +142,12 @@ todo.taskList = (function(){
        +'</div>'
        + '</form>');
      $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
-     $("form#todo-update").on("submit", function(event){
+     $('form#todo-update').on('submit', function(event){
        event.preventDefault();
       var description = { description:  $(this).serializeArray()[0].value };
       updateTodoDescription(todo, description);
      })
-     $("form#todo-update #cancel").on("click", function(event){
+     $('form#todo-update #cancel').on('click', function(event){
       event.preventDefault();
       $(todo_view).parent().parent().replaceWith(createTodoView(todo));
       editTodoDescription();
@@ -154,7 +163,7 @@ todo.taskList = (function(){
         update_desc  = update_data;
     $.ajax({
       url : todo.routes.updateTodo(id, task.id),
-      type : "PUT",
+      type : 'PUT',
       data: {api_token: api_token, todo: update_desc }
     })
       .done(function(result){
@@ -164,7 +173,8 @@ todo.taskList = (function(){
         editSingleTodoComplete(task.id);
       })
       .fail(function(xhr, status, error){
-        console.log(error);
+        var alert_message = "Whoops! Something went wrong, try again in a minute."
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   };
 
@@ -188,16 +198,17 @@ todo.taskList = (function(){
     })
       .done(function(result){
         task.is_complete = result.is_complete;
-        var updated_class = "complete";
+        var updated_class = 'complete';
         if(task.is_complete === true){
-          updated_class += " is-complete"
+          updated_class += ' is-complete'
         }else{
-          updated_class += " is-not-complete"
+          updated_class += ' is-not-complete'
         }
       $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
       })
       .fail(function(xhr, status, error){
-        console.log(error);
+        var alert_message = "Whoops! Something went wrong, try again in a minute."
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   };
 
@@ -218,8 +229,8 @@ todo.taskList = (function(){
   };
 
    onLogin = function(){
-      jqueryMap.$form = jqueryMap.$container.find("#todo-add-form");
-      jqueryMap.$form.prepend(configMap.add_task_form)
+      jqueryMap.$form = jqueryMap.$container.find('#todo-add-form');
+      jqueryMap.$form.append(configMap.add_task_form)
       addTodo();
       getTodos();
       sortTodos();
@@ -227,7 +238,8 @@ todo.taskList = (function(){
 
   sortTodos = function(){
    $("#todo-list").sortable(); 
-  }
+  };
+
 
   initModule = function($container){
      stateMap.$container = $container;

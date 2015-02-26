@@ -22,8 +22,9 @@ todo.shell = (function(){
       + '</nav>'
       + '<div class="row">'
         + '<div class="small-10 columns small-centered todo-main-content">'
+          + '<div id="todo-welcome-form-alert"></div>'
           + '<div id="todo-welcome-form"></div>'
-          + '<div id="todo-add-form"></div>'
+          + '<div id="todo-add-form"><div id="todo-add-form-alert"></div></div>'
           + '<div id="todo-list" class="row"></div>'
       + '</div>'
    },

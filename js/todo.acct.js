@@ -5,7 +5,7 @@ todo.acct = (function(){
       var link,
       new_form =
      '<div class="row">'
-      +'<div class="large-6 large-centered columns">'
+      +'<div class="small-7 small-centered columns">'
       + '<form class="'
          + form_type
          +' radius">'
@@ -92,12 +92,16 @@ todo.acct = (function(){
   submit_form = function(route){
       jqueryMap.$welcomeForm.find('form').on('submit', function(event){
         event.preventDefault();
+        jqueryMap.$welcomeForm.find('.alert-box').remove();
         var form_data = $(this).serializeArray();
         if(form_data[0].value === '' || form_data[1] === ''){
-          console.log("err"); 
+         var alert_message = "Email or password can not be empty."
+         jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message));
+         // return false;
         }
         else{
-          auth_user($(this).serializeArray(), route);
+          jqueryMap.$welcomeForm.find('.alert-box').remove();
+          auth_user(form_data, route);
         }
       })
   };
@@ -107,6 +111,7 @@ todo.acct = (function(){
     jqueryMap.$addForm.empty(); 
     jqueryMap.$todoList.empty(); 
   };
+
   initModule = function( $container ){
     stateMap.$container = $container;
     setJqueryMap();

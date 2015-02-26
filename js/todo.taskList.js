@@ -100,20 +100,20 @@ todo.taskList = (function(){
              jqueryMap.$addForm.find('#todo-add-form-alert').html('');
               $.ajax({
                url: todo.routes.addTodo(id),
-               type: "POST",
+               type: 'POST',
                data: {api_token: api_token, todo:{description: description[0].value}}
               })
                .done(function(result){
                  $(jqueryMap.$task_list).prepend(createTodoView(result));
-                 $(jqueryMap.$form).find("input[name='description']").val("");
+                 $(jqueryMap.$form).find("input[name='description']").val('');
                  var task = todo.task.makeTodo(result);
                  stateMap.todoList[task.id] = task;
                  editSingleTodoComplete(task.id);
-                 $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
+                 $(jqueryMap.$task_list).find('.todo-item .todo-description').off('dblclick');
                  editTodoDescription();
                })
                .fail(function(xhr,status, error){
-                var alert_message = "Whoops! Something went wrong, try again in a minute."
+                var alert_message = 'Whoops! Something went wrong, try again in a minute.'
                 jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
              })
 
@@ -122,8 +122,8 @@ todo.taskList = (function(){
   };
 
   editTodoDescription = function(){
-    $(jqueryMap.$task_list).find(".todo-item .todo-description").dblclick(function(){
-     var todo_id = $(this).parent().parent().attr("id");
+    $(jqueryMap.$task_list).find('.todo-item .todo-description').dblclick(function(){
+     var todo_id = $(this).parent().parent().attr('id');
      var todo = stateMap.todoList[todo_id];
      var todo_view = this;
      $(this).html(
@@ -141,7 +141,7 @@ todo.taskList = (function(){
        + '</ul>'
        +'</div>'
        + '</form>');
-     $(jqueryMap.$task_list).find(".todo-item .todo-description").off('dblclick');
+     $(jqueryMap.$task_list).find('.todo-item .todo-description').off('dblclick');
      $('form#todo-update').on('submit', function(event){
        event.preventDefault();
       var description = { description:  $(this).serializeArray()[0].value };
@@ -173,13 +173,13 @@ todo.taskList = (function(){
         editSingleTodoComplete(task.id);
       })
       .fail(function(xhr, status, error){
-        var alert_message = "Whoops! Something went wrong, try again in a minute."
+        var alert_message = 'Whoops! Something went wrong, try again in a minute.'
         jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   };
 
   editTodoIsComplete = function(){
-    $(jqueryMap.$task_list).find('.complete').click(function(){
+    $(jqueryMap.$task_list).find('.complete').dblclick(function(){
        var todo_id = $(this).parent().parent().parent().attr("id");
        var todo = stateMap.todoList[todo_id];
        updateTodoIsComplete(todo, toggleIsComplete(todo));
@@ -207,14 +207,14 @@ todo.taskList = (function(){
       $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
       })
       .fail(function(xhr, status, error){
-        var alert_message = "Whoops! Something went wrong, try again in a minute."
+        var alert_message = 'Whoops! Something went wrong, try again in a minute.'
         jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
   };
 
   editSingleTodoComplete = function(task_id){
       var task_id = task_id;
-      $(jqueryMap.$task_list).find( "[id="+ task_id +" ] .complete").click(function(){
+      $(jqueryMap.$task_list).find( "[id="+ task_id +" ] .complete").dblclick(function(){
          var task = stateMap.todoList[task_id];
          updateTodoIsComplete(task, toggleIsComplete(task));
     })
@@ -237,7 +237,7 @@ todo.taskList = (function(){
    };
 
   sortTodos = function(){
-   $("#todo-list").sortable(); 
+   $('#todo-list').sortable(); 
   };
 
 

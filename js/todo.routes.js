@@ -23,6 +23,7 @@ todo.routes=(function(){
   }
 
  return { 
+   host: configMap.host,
    login: configMap.login,
    register: configMap.register,
    logout: configMap.logout,

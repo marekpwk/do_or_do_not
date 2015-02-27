@@ -19,11 +19,33 @@ todo.taskList = (function(){
     +'</div>'
   },
 
-  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList, sortTodos ;
+  stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList,
+  editTodoDescription, updateTodoDescription, editTodoIsComplete, updateTodoIsComplete, editSingleTodoComplete,
+  toggleIsComplete, initModule, sortTodos, updateCounter, observeList ;
 
+  /*  Update todo complete counter */
+  updateCounterView = function(){
+    var new_todo_counter = stateMap.completeCounter + "/" + Object.keys(stateMap.todoList).length; 
+    jqueryMap.$completeCounter.html(new_todo_counter);
+  }
+  updateCompleteCounter = function(task){
+     if(task.is_complete === true){
+       stateMap.completeCounter += 1; 
+      }
+      else {
+       stateMap.completeCounter -= 1; 
+      }
+  }
+
+  initialCompleteCounter = function(task){
+     if(task.is_complete === true){
+       stateMap.completeCounter += 1; 
+      }
+  }
   stateMap = {
              $container: null,
-             todoList: {}
+             todoList: {},
+             completeCounter: 0
   }
 
   setJqueryMap = function () {
@@ -31,7 +53,8 @@ todo.taskList = (function(){
     jqueryMap = {
       $container: $container,
       $task_list: $container.find('#todo-list'),
-      $addForm: $container.find('#todo-add-form')
+      $addForm: $container.find('#todo-add-form'),
+      $completeCounter: $container.find('#todo-complete-counter')
     }
    };
 
@@ -47,6 +70,8 @@ todo.taskList = (function(){
       makeTodoList(result);
       editTodoDescription();
       editTodoIsComplete();
+      observeList();
+      updateCounterView();
     })
 
   };
@@ -81,9 +106,10 @@ todo.taskList = (function(){
   };
 
   makeTodoList = function(json_objects){
-   $.each(json_objects, function(i, todo){
-     stateMap.todoList[todo.id] = todo;
-     $(jqueryMap.$task_list).append(createTodoView(stateMap.todoList[todo.id]));
+   $.each(json_objects, function(i, task){
+     stateMap.todoList[task.id] = task;
+     $(jqueryMap.$task_list).append(createTodoView(stateMap.todoList[task.id]));
+     initialCompleteCounter(task);
    })
   };
 
@@ -111,6 +137,7 @@ todo.taskList = (function(){
                  editSingleTodoComplete(task.id);
                  $(jqueryMap.$task_list).find('.todo-item .todo-description').off('dblclick');
                  editTodoDescription();
+                 updateCounterView();
                })
                .fail(function(xhr,status, error){
                 var alert_message = 'Whoops! Something went wrong, try again in a minute.'
@@ -204,7 +231,9 @@ todo.taskList = (function(){
         }else{
           updated_class += ' is-not-complete'
         }
-      $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
+       $(jqueryMap.$task_list).find( "[id="+ task.id +" ] .complete").attr('class', updated_class );
+       updateCompleteCounter(task);
+       updateCounterView();
       })
       .fail(function(xhr, status, error){
         var alert_message = 'Whoops! Something went wrong, try again in a minute.'

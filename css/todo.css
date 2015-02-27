@@ -2,6 +2,10 @@ body{
   font-family: 'Raleway', sans-serif;
   background-color: #DBE3E5;
 }
+#todo-complete-counter{
+  color: white;
+  background-color: inherit;
+}
 #welcome-slogan p{
   font-size: 2em;
   font-weight: bold;

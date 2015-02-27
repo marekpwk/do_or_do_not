@@ -16,8 +16,8 @@ todo.taskList = (function(){
       +'</div>'
        + '</form>'
       +'</div>'
-    +'</div>',
-    completeCounter: '<p><span id="todo-complete-counter"> 10000</span> tasks completed</p>'
+    +'</div>'
+     completeCounter: '<p><span id="todo-complete-counter"> 10000</span> tasks completed</p>'
   },
 
   stateMap, jqueryMap, setJqueryMap, addTodo, onLogin, createTodoView, getTodos, edit_todo, makeTodoList,
@@ -25,10 +25,10 @@ todo.taskList = (function(){
   toggleIsComplete, initModule, sortTodos, updateCounter ;
 
   /*  Update todo complete counter */
-
   updateCounterView = function(){
     var new_todo_counter = stateMap.completeCounter + "/" + Object.keys(stateMap.todoList).length; 
-    jqueryMap.$completeCounter.find('span').html(new_todo_counter);
+    console.log(jqueryMap.$completeCounter);
+    jqueryMap.$completeCounter.html(new_todo_counter);
   };
 
   updateCompleteCounter = function(task){
@@ -46,8 +46,6 @@ todo.taskList = (function(){
       }
   };
 
-/**************END update counter ***********************/
-
   stateMap = {
              $container: null,
              todoList: {},
@@ -60,7 +58,7 @@ todo.taskList = (function(){
       $container: $container,
       $task_list: $container.find('#todo-list'),
       $addForm: $container.find('#todo-add-form'),
-      $completeCounter: $container.find('#counter-wrap')
+      $completeCounter: $container.find('#counter-wrap span')
     }
    };
 
@@ -265,7 +263,6 @@ todo.taskList = (function(){
    onLogin = function(){
       jqueryMap.$form = jqueryMap.$container.find('#todo-add-form');
       jqueryMap.$form.append(configMap.add_task_form)
-      jqueryMap.$completeCounter.html(configMap.completeCounter); 
       addTodo();
       getTodos();
       sortTodos();

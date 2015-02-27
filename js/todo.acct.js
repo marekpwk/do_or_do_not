@@ -30,7 +30,7 @@ todo.acct = (function(){
      new_form += link + '</div></div>'
       return new_form
       },
-     logout_link: '<li><a href="#" id="logout-link">Logout</a></li>'
+     logout_link: '<li><a href="#" id="logout-link">Logout</a></li>',
   },
    jqueryMap, setJqueryMap, stateMap, auth_user, delete_auth, onLogin, initModule ;
 
@@ -127,7 +127,8 @@ todo.acct = (function(){
       $('#todo-welcome-form').html(configMap.form_html('login'));
       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
       submit_form(todo.routes.login());
-      $('#register-link').click(function(){
+      $('#register-link').click(function(event){
+        event.preventDefault();
         jqueryMap.$welcomeForm.html(configMap.form_html('register'));
         submit_form(todo.routes.register());
       })

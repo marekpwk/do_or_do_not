@@ -27,7 +27,9 @@ todo.shell = (function(){
           + '<div id="todo-welcome-form"></div>'
           + '<div id="todo-add-form"><div id="todo-add-form-alert"></div></div>'
           + '<div id="todo-list" class="row"></div>'
+        + '</div>'
       + '</div>'
+      +'<div class="footer"><p>TODO APP made with<a target="_blank" href="https://github.com/clarkr/nextcapital-todo"> NextCapital API</a> by <a  target="_blank" href="http://www.linkedin.com/in/marekpyczkowski">Marek Pyczkowski</a></p></div>'
    },
     stateMap = { $container : null },
     jqueryMap = {},

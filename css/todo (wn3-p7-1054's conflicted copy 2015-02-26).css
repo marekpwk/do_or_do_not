@@ -128,14 +128,5 @@ form.login, form.register{
   color: red;
 }
 .footer{
-  padding-top: 10px;
-  color: rgb(171, 174, 177);
-  text-align: center;
-  width: 100%;
-  height: 50px; /* choose any height */
-  background-color: #383f47;
-}
-.footer a {
-  color: rgb(171, 174, 177);
-  text-decoration: underline;
+
 }

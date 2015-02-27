@@ -2,6 +2,14 @@ body{
   font-family: 'Raleway', sans-serif;
   background-color: #DBE3E5;
 }
+
+li.name p {
+ color:white;
+ padding: 0 40px 0 0;
+ background-color: #383f47;
+ font-weight: bold;
+}
+
 #welcome-slogan p{
   font-size: 2em;
   font-weight: bold;

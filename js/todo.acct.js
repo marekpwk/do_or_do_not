@@ -5,7 +5,7 @@ todo.acct = (function(){
         + '<p class="text-center">D<i class="fa fa-check-circle-o first-o"></i> OR D<i class="fa fa-check-circle-o second-o"></i> NOT'
         + '<p class="text-center slogan-second">THERE IS NO TRY</p><p class="text-center slogan-third">ULTIMATE TODO APP<p>' 
         +  '</div>',
-    form_html: function(form_type){
+    formHtml: function(form_type){
       var link,
       new_form =
      '<div class="row">'
@@ -32,13 +32,16 @@ todo.acct = (function(){
       },
      logout_link: '<li><a href="#" id="logout-link">Logout</a></li>',
   },
-   jqueryMap, setJqueryMap, stateMap, auth_user, delete_auth, onLogin, initModule ;
+   jqueryMap, setJqueryMap, stateMap, authUser, submitForm, deleteAuth, emptyContainers, onLogin, onLogout,
+    initModule ;
 
-  stateMap = { $container: null }
+  stateMap = { $container: null };
+
   setJqueryMap = function () {
     var $container = stateMap.$container;
     jqueryMap = {
       $container: $container,
+      $generalAlert: $container.find('#todo-general-alert'),
       $nav: $container.find('nav'),
       $welcomeForm: $container.find('#todo-welcome-form'),
       $addForm: $container.find('#todo-add-form'),
@@ -46,7 +49,7 @@ todo.acct = (function(){
     }
    };
 
-  auth_user = function(form_data, route){
+  authUser = function(form_data, route){
     var email = form_data[0].value;
     var password = form_data[1].value;
     var route = route;
@@ -67,38 +70,42 @@ todo.acct = (function(){
       })
   };
 
-  delete_auth = function(){
+  deleteAuth = function(){
     $.ajax({
      url: todo.routes.logout(),
      type: 'DELETE',
      data: { api_token: localStorage.api_token, user_id: localStorage.id }
     })
      .done(function(result){
-       localStorage.clear();
-       jqueryMap.$welcomeForm.html(configMap.form_html('login'));
-       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
-       jqueryMap.$nav.find('.right').empty();
-
      })
       .fail(function(xhr,status, error){
         var alert_message = 'Whoops! Something went wrong, try again in a minute.'
-        jqueryMap.$welcomeForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+        jqueryMap.$generalAlert.append(todo.util.alertBox(alert_message));
       })
+       .always(function(result){
+          localStorage.clear();
+          todo = {};
+          emptyContainers();
+          jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
+          jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
+       })
   }
 
   onLogin = function(){
     jqueryMap.$welcomeForm.empty();
     jqueryMap.$nav.find('.right').append(configMap.logout_link);
     todo.taskList.onLogin();
+    onLogout();
+  };
+
+  onLogout = function(){
     $(jqueryMap.$nav.find('#logout-link')).click(function(event){
       event.preventDefault();
-      delete_auth();
-      todo = {};
-      emptyContainers();
+      deleteAuth();
     })
   };
 
-  submit_form = function(route){
+  submitForm = function(route){
       jqueryMap.$welcomeForm.find('form').on('submit', function(event){
         event.preventDefault();
         jqueryMap.$welcomeForm.find('.alert-box').remove();
@@ -109,7 +116,7 @@ todo.acct = (function(){
         }
         else{
           jqueryMap.$welcomeForm.find('.alert-box').remove();
-          auth_user(form_data, route);
+          authUser(form_data, route);
         }
       })
   };
@@ -118,19 +125,20 @@ todo.acct = (function(){
     jqueryMap.$welcomeForm.empty(); 
     jqueryMap.$addForm.empty(); 
     jqueryMap.$todoList.empty(); 
+    jqueryMap.$nav.find('.right').empty();
   };
 
   initModule = function( $container ){
     stateMap.$container = $container;
     setJqueryMap();
     if(localStorage.api_token === undefined ){
-      $('#todo-welcome-form').html(configMap.form_html('login'));
+      $('#todo-welcome-form').html(configMap.formHtml('login'));
       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
-      submit_form(todo.routes.login());
+      submitForm(todo.routes.login());
       $('#register-link').click(function(event){
         event.preventDefault();
-        jqueryMap.$welcomeForm.html(configMap.form_html('register'));
-        submit_form(todo.routes.register());
+        jqueryMap.$welcomeForm.html(configMap.formHtml('register'));
+        submitForm(todo.routes.register());
       })
     }else{
      onLogin();
@@ -138,10 +146,7 @@ todo.acct = (function(){
 
   }
 
-  return { initModule: initModule,
-           onLogin: onLogin,
-           delete_auth: delete_auth 
-  }
+  return { initModule: initModule }
 
 }());
 

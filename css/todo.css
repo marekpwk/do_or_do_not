@@ -9,7 +9,9 @@ li.name p {
  background-color: #383f47;
  font-weight: bold;
 }
-
+#todo-general-alert{
+  margin-top: 7%;
+}
 #welcome-slogan p{
   font-size: 2em;
   font-weight: bold;

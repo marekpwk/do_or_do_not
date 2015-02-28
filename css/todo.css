@@ -60,7 +60,7 @@ form.login, form.register{
   text-transform: uppercase;
   background-color: #4C5356;
 }
-#register-link, #login-link {
+#register-link, #signin-link {
   color: rgb(56, 62, 68);
 }
 #todo-add-form{

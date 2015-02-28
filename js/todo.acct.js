@@ -74,16 +74,18 @@ todo.acct = (function(){
      data: { api_token: localStorage.api_token, user_id: localStorage.id }
     })
      .done(function(result){
-       localStorage.clear();
-       jqueryMap.$welcomeForm.html(configMap.form_html('login'));
-       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
-       jqueryMap.$nav.find('.right').empty();
-
      })
       .fail(function(xhr,status, error){
         var alert_message = 'Whoops! Something went wrong, try again in a minute.'
         jqueryMap.$welcomeForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
       })
+       .always(function(result){
+         localStorage.clear();
+         jqueryMap.$welcomeForm.html(configMap.form_html('login'));
+         $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
+         jqueryMap.$nav.find('.right').empty();
+
+       })
   }
 
   onLogin = function(){

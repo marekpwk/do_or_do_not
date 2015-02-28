@@ -1,15 +1,11 @@
-todo.util = (function(){
+todo.util = (function() {
 
- alertBox = function(alert_message){
-    var box = '<div class=" small-12 columns small-centered alert-box alert radius">'
-      +'<p class="text-center">'
-      + alert_message
-      + '</p>'
-    +'</div>'
-    return box
- };
+	alertBox = function(alert_message) {
+		var box = '<div class=" small-12 columns small-centered alert-box alert radius"><p class="text-center">' + alert_message + '</p></div>'
+		return box
+	};
 
- return {
-   alertBox: alertBox  
- }
+	return {
+		alertBox: alertBox
+	}
 }());

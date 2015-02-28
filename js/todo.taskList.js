@@ -112,7 +112,7 @@ todo.taskList = (function(){
 
   makeTodoList = function(json_objects){
    $.each(json_objects, function(i, task){
-     stateMap.todoList[task.id] = task;
+     stateMap.todoList[task.id] = todo.task.makeTodo(task);
      $(jqueryMap.$task_list).append(createTodoView(stateMap.todoList[task.id]));
      initialCompleteCounter(task);
    })

@@ -283,7 +283,8 @@ todo.taskList = (function(){
 
   return {
     initModule: initModule,
-    onLogin: onLogin
+    onLogin: onLogin,
+    todoList: stateMap.todoList
   }
 
 }());

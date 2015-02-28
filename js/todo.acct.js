@@ -84,10 +84,13 @@ todo.acct = (function(){
       })
        .always(function(result){
           localStorage.clear();
-          todo = {};
           emptyContainers();
           jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
           jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
+          submitForm(todo.routes.login());
+          todo.user.stateMap.user = {};
+          todo.taskList.todoList = {};
+          
        })
   }
 
@@ -138,6 +141,7 @@ todo.acct = (function(){
       $('#register-link').click(function(event){
         event.preventDefault();
         jqueryMap.$welcomeForm.html(configMap.formHtml('register'));
+        jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
         submitForm(todo.routes.register());
       })
     }else{

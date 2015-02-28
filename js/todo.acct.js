@@ -88,9 +88,15 @@ todo.acct = (function(){
           jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
           jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
           submitForm(todo.routes.login());
-          todo.user.stateMap.user = {};
-          todo.taskList.todoList = {};
+      $('#register-link').click(function(event){
+        event.preventDefault();
+        jqueryMap.$welcomeForm.html(configMap.formHtml('register'));
+        jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
+        submitForm(todo.routes.register());
+      })
           
+    todo.user.stateMap.user = {};
+    todo.taskList.onLogout();
        })
   }
 
@@ -128,13 +134,14 @@ todo.acct = (function(){
     jqueryMap.$welcomeForm.empty(); 
     jqueryMap.$addForm.empty(); 
     jqueryMap.$todoList.empty(); 
-    jqueryMap.$nav.find('.right').empty();
+    jqueryMap.$nav.find('#logout-link').parent().remove(); 
+    jqueryMap.$nav.find('.right #counter-wrap').empty();
   };
 
   initModule = function( $container ){
     stateMap.$container = $container;
     setJqueryMap();
-    if(localStorage.api_token === undefined ){
+    if(localStorage.api_token === undefined){
       $('#todo-welcome-form').html(configMap.formHtml('login'));
       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
       submitForm(todo.routes.login());
@@ -153,4 +160,4 @@ todo.acct = (function(){
   return { initModule: initModule }
 
 }());
-
+//

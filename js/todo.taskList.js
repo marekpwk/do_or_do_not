@@ -270,6 +270,12 @@ todo.taskList = (function(){
       getTodos();
       sortTodos();
    };
+  
+  onLogout = function(){
+    stateMap.todoList = {};
+    stateMap.completeCounter = 0;
+  
+  }
 
   sortTodos = function(){
    $('#todo-list').sortable(); 
@@ -284,7 +290,7 @@ todo.taskList = (function(){
   return {
     initModule: initModule,
     onLogin: onLogin,
-    todoList: stateMap.todoList
+    onLogout: onLogout 
   }
 
 }());

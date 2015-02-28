@@ -23,9 +23,9 @@ todo.acct = (function(){
        + '</form>';
 
      if(form_type === 'login'){
-       link = '<a href="#" id="register-link">Register</a>';
+       link = '<a href="#" id="register-link" class="form-link">Register</a>';
      }else{
-       link = '<a href="#" id="sigin-link">SignIn</a>';
+       link = '<a href="#" id="signin-link" class="form-link">SignIn</a>';
      }
      new_form += link + '</div></div>'
       return new_form
@@ -33,7 +33,7 @@ todo.acct = (function(){
      logout_link: '<li><a href="#" id="logout-link">Logout</a></li>',
   },
    jqueryMap, setJqueryMap, stateMap, authUser, submitForm, deleteAuth, emptyContainers, onLogin, onLogout,
-    initModule ;
+   clickFormLink, initModule ;
 
   stateMap = { $container: null };
 
@@ -84,10 +84,13 @@ todo.acct = (function(){
       })
        .always(function(result){
           localStorage.clear();
-          todo = {};
           emptyContainers();
           jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
           jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
+          submitForm(todo.routes.login());
+          clickFormLink();
+          todo.user.stateMap.user = {}; 
+          todo.taskList.onLogout();
        })
   }
 
@@ -120,26 +123,40 @@ todo.acct = (function(){
         }
       })
   };
+  
+  clickFormLink = function(){
+      $('.form-link').click(function(event){
+        event.preventDefault();
+        if(this.id === 'register-link'){
+          jqueryMap.$welcomeForm.html(configMap.formHtml('register'));
+          submitForm(todo.routes.register());
+          clickFormLink();
+        }
+        else {
+          jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
+          submitForm(todo.routes.login());
+          clickFormLink();
+        }
+        jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
+      })
+  }
 
   emptyContainers = function(){
     jqueryMap.$welcomeForm.empty(); 
     jqueryMap.$addForm.empty(); 
     jqueryMap.$todoList.empty(); 
-    jqueryMap.$nav.find('.right').empty();
+    jqueryMap.$nav.find('#logout-link').parent().remove(); 
+    jqueryMap.$nav.find('.right #counter-wrap').empty();
   };
 
   initModule = function( $container ){
     stateMap.$container = $container;
     setJqueryMap();
-    if(localStorage.api_token === undefined ){
+    if(localStorage.api_token === undefined){
       $('#todo-welcome-form').html(configMap.formHtml('login'));
       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
       submitForm(todo.routes.login());
-      $('#register-link').click(function(event){
-        event.preventDefault();
-        jqueryMap.$welcomeForm.html(configMap.formHtml('register'));
-        submitForm(todo.routes.register());
-      })
+      clickFormLink();
     }else{
      onLogin();
     }
@@ -149,4 +166,4 @@ todo.acct = (function(){
   return { initModule: initModule }
 
 }());
-
+//

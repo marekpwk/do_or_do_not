@@ -1,0 +1,132 @@
+body{
+  font-family: 'Raleway', sans-serif;
+  background-color: #DBE3E5;
+}
+
+li.name p {
+ color:white;
+ padding: 0 40px 0 0;
+ background-color: #383f47;
+ font-weight: bold;
+}
+
+#welcome-slogan p{
+  font-size: 2em;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 0;
+}
+#welcome-slogan .first-o {
+  color: green;
+}
+#welcome-slogan .second-o {
+  color: red;
+}
+#welcome-slogan .slogan-third {
+  font-size: 1em;
+}
+.top-bar li.name h1 a{
+  font-weight: bold;
+}
+.top-bar{
+  background-color: #383f47;
+}
+#todo-welcome-form{
+  border-radius: 5px;
+  margin-top: 10%;
+  background-color: white;
+}
+form input[type=submit]{
+  text-transform: uppercase;
+  background-color: #5D747B;
+}
+form input[type=submit]:hover{
+  background-color: #53676E;
+}
+form input[type=submit]:visited{
+  background-color: #53676E;
+}
+form input[type=submit]:focus{
+  background-color: #53676E;
+}
+form.login, form.register{
+  padding: 5px 5px;
+  border: 1px solid white;
+  margin-top: 5%;
+}
+#logout-link{
+  text-transform: uppercase;
+  background-color: #4C5356;
+}
+#register-link, #login-link {
+  color: rgb(56, 62, 68);
+}
+#todo-add-form{
+  margin-top: 3%;
+}
+#todo-update .postfix{
+  border: none;
+}
+#todo-update {
+  margin-bottom: -3%;
+}
+#cancel{
+  background-color: rgb(182, 8, 8);
+}
+.alert-box p{
+  margin-bottom: 0;
+}
+#todo-list{
+  border-radius: 4px;
+  background-color: white;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.todo-wrapper{
+  position: relative;
+}
+.todo-item{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 2px;
+  background-color: rgb(227, 234, 236);
+  overflow: auto;
+  min-height: 50px;
+  position: relative;
+}
+.todo-item i{
+  position: absolute;
+  top: 2%;
+  left: 6%;
+  font-size: 3em;
+  color: yellow;
+}
+.todo-description {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.todo-description p {
+  margin-bottom: 0;
+  font-size: 1em;
+  color: rgb(52, 59, 68)
+}
+.complete{
+  min-width: 50px;
+  min-height: 50px;
+}
+.is-complete i{
+  color: green;
+}
+.is-not-complete i{
+  color: red;
+}
+.footer{
+
+}

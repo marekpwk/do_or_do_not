@@ -71,7 +71,7 @@ todo.acct = (function() {
       })
       .fail(function(xhr, status, error) {
         var alert_message = 'Whoops! Incorrect email or password. Try again:)'
-        jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message));
+        jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message, 'alert'));
       })
   };
 
@@ -87,7 +87,7 @@ todo.acct = (function() {
       .done(function(result) {})
       .fail(function(xhr, status, error) {
         var alert_message = 'Whoops! Something went wrong, try again in a minute.'
-        jqueryMap.$generalAlert.append(todo.util.alertBox(alert_message));
+        jqueryMap.$generalAlert.append(todo.util.alertBox(alert_message, 'alert'));
       })
       .always(function(result) {
         localStorage.clear();
@@ -120,9 +120,9 @@ todo.acct = (function() {
       event.preventDefault();
       jqueryMap.$welcomeForm.find('.alert-box').remove();
       var form_data = $(this).serializeArray();
-      if (form_data[0].value === '' || form_data[1] === '') {
+      if (form_data[0].value === '' || form_data[1].value === '') {
         var alert_message = 'Email or password can not be empty.'
-        jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message));
+        jqueryMap.$welcomeForm.prepend(todo.util.alertBox(alert_message, 'alert'));
       } else {
         jqueryMap.$welcomeForm.find('.alert-box').remove();
         authUser(form_data, route);

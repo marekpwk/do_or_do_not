@@ -125,7 +125,7 @@ todo.taskList = (function() {
         api_token = localStorage.api_token;
       if (description[0].value === '') {
         var alert_message = 'Whoops! Description can not be empty.';
-        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message, 'alert'));
       } else {
         jqueryMap.$addForm.find('#todo-add-form-alert').html('');
         $.ajax({
@@ -150,7 +150,7 @@ todo.taskList = (function() {
           })
           .fail(function(xhr, status, error) {
             var alert_message = 'Whoops! Something went wrong, try again in a minute.'
-            jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+            jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message, 'alert'));
           })
 
       }
@@ -215,7 +215,7 @@ todo.taskList = (function() {
       })
       .fail(function(xhr, status, error) {
         var alert_message = 'Whoops! Something went wrong, try again in a minute.'
-        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message, 'alert'));
       })
   };
 
@@ -254,7 +254,7 @@ todo.taskList = (function() {
       })
       .fail(function(xhr, status, error) {
         var alert_message = 'Whoops! Something went wrong, try again in a minute.'
-        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message));
+        jqueryMap.$addForm.find('#todo-add-form-alert').html(todo.util.alertBox(alert_message, 'alert'));
       })
   };
 
@@ -282,6 +282,8 @@ todo.taskList = (function() {
     jqueryMap.$form = jqueryMap.$container.find('#todo-add-form');
     jqueryMap.$form.append(configMap.add_task_form)
     jqueryMap.$completeCounter.html(configMap.completeCounter);
+    var instructions = 'To edit existing task, double click on check mark or description';
+    jqueryMap.$container.find('#todo-general-alert').html(todo.util.alertBox(instructions, 'success')).delay(8000).fadeOut('slow');
     addTodo();
     getTodos();
     sortTodos();

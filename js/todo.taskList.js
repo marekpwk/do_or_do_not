@@ -282,6 +282,8 @@ todo.taskList = (function() {
     jqueryMap.$form = jqueryMap.$container.find('#todo-add-form');
     jqueryMap.$form.append(configMap.add_task_form)
     jqueryMap.$completeCounter.html(configMap.completeCounter);
+    var instructions = 'To edit existing task, double click on check mark or description';
+    jqueryMap.$container.find('#todo-general-alert').html(todo.util.alertBox(instructions, 'success')).delay(8000).fadeOut('slow');
     addTodo();
     getTodos();
     sortTodos();

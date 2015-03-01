@@ -1,7 +1,7 @@
 todo.routes = (function() {
 
   var configMap = {
-    host: "http://0.0.0.0:3000",
+    host: "http://recruiting-api.nextcapital.com",
     login: function() {
       return [configMap.host, "users/sign_in"].join("/")
     },

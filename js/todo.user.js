@@ -27,7 +27,7 @@ todo.user = (function() {
       id: user_data.id,
       email: user_data.email,
       api_token: user_data.api_token,
-      todos: user_data.todos,
+      todos: user_data.todos
     })
   };
   initModule = function() {

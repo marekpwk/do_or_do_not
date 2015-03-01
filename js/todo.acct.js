@@ -157,7 +157,7 @@ todo.acct = (function() {
   initModule = function($container) {
     stateMap.$container = $container;
     setJqueryMap();
-    if (localStorage.api_token === undefined) {
+    if (localStorage.api_token === undefined || todo.user.stateMap.user.id === undefined ) {
       $('#todo-welcome-form').html(configMap.formHtml('login'));
       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
       submitForm(todo.routes.login());

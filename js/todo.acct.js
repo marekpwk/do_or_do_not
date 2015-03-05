@@ -3,7 +3,7 @@ todo.acct = (function() {
   var configMap = {
      welcomeSlogan: '<div id="welcome-slogan" class="row">'
         + '<p class="text-center">D<i class="fa fa-check-circle-o first-o"></i> OR D<i class="fa fa-check-circle-o second-o"></i> NOT'
-        + '<p class="text-center slogan-second">THERE IS NO TRY</p><p class="text-center slogan-third">ULTIMATE TODO APP<p>' 
+        + '<p class="text-center slogan-second">THERE IS NO TRY</p><p class="text-center slogan-third">ULTIMATE TODO APP<p>'
         +  '</div>',
      formHtml: function(form_type){
       var link,
@@ -22,7 +22,7 @@ todo.acct = (function() {
          + '" class="button small radius">'
        + '</form>';
 
-     if(form_type === 'login'){
+     if(form_type === 'signin'){
        link = '<a href="#" id="register-link" class="form-link">Register</a>';
      }else{
        link = '<a href="#" id="signin-link" class="form-link">SignIn</a>';
@@ -92,7 +92,7 @@ todo.acct = (function() {
       .always(function(result) {
         localStorage.clear();
         emptyContainers();
-        jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
+        jqueryMap.$welcomeForm.html(configMap.formHtml('signin'));
         jqueryMap.$welcomeForm.prepend(configMap.welcomeSlogan);
         submitForm(todo.routes.login());
         clickFormLink();
@@ -138,7 +138,7 @@ todo.acct = (function() {
         submitForm(todo.routes.register());
         clickFormLink();
       } else {
-        jqueryMap.$welcomeForm.html(configMap.formHtml('login'));
+        jqueryMap.$welcomeForm.html(configMap.formHtml('signin'));
         submitForm(todo.routes.login());
         clickFormLink();
       }
@@ -158,7 +158,7 @@ todo.acct = (function() {
     stateMap.$container = $container;
     setJqueryMap();
     if (localStorage.api_token === undefined || todo.user.stateMap.user.id === undefined ) {
-      $('#todo-welcome-form').html(configMap.formHtml('login'));
+      $('#todo-welcome-form').html(configMap.formHtml('signin'));
       $('#todo-welcome-form').prepend(configMap.welcomeSlogan);
       submitForm(todo.routes.login());
       clickFormLink();

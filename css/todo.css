@@ -51,7 +51,7 @@ form input[type=submit]:visited{
 form input[type=submit]:focus{
   background-color: #53676E;
 }
-form.login, form.register{
+form.signin, form.register{
   padding: 5px 5px;
   border: 1px solid white;
   margin-top: 5%;
